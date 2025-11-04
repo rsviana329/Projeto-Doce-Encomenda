@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Área Administrativa - Doce Encomenda</title>
+    <meta name="description" content="Login da Área Administrativa - Doce Encomenda">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; min-height: 100vh; background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+        <!-- MAIN CONTENT -->
+        <main style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 2rem;">
+            <div style="width: 100%; max-width: 500px;">
+                <div class="card" style="padding: 3rem; text-align: center;">
+                    <!-- LOGO -->
+                    <div style="width: 80px; height: 80px; background-color: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-size: 2.5rem;">
+                        🎂
+                    </div>
+
+                    <h1 style="margin-bottom: 0.5rem;">Área Administrativa</h1>
+                    <p style="color: var(--muted-foreground); margin-bottom: 2rem;">Acesse o painel de controle</p>
+
+                    <!-- FORM -->
+                    <form style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- USUÁRIO -->
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
+                            <label for="username" style="font-weight: 600; color: var(--foreground);">Usuário</label>
+                            <input type="text" id="username" name="username" placeholder="Digite seu usuário" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 1rem; font-family: inherit; font-size: 1rem; background-color: var(--background); color: var(--foreground);">
+                        </div>
+
+                        <!-- SENHA -->
+                        <div style="display: flex; flex-direction: column; gap: 0.5rem; text-align: left;">
+                            <label for="password" style="font-weight: 600; color: var(--foreground);">Senha</label>
+                            <input type="password" id="password" name="password" placeholder="Digite sua senha" style="padding: 0.75rem; border: 1px solid var(--border); border-radius: 1rem; font-family: inherit; font-size: 1rem; background-color: var(--background); color: var(--foreground);">
+                        </div>
+
+                        <!-- BUTTON -->
+                        <a href="admin-dashboard.html" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 1rem;">
+                            🔒 Entrar
+                        </a>
+                    </form>
+
+                    <!-- CREDENTIALS -->
+                    <div style="background-color: var(--muted); padding: 1.5rem; border-radius: 1rem; margin-top: 2rem; text-align: left;">
+                        <p style="font-weight: 600; margin-bottom: 0.75rem; color: var(--foreground);">Credenciais padrão:</p>
+                        <div style="font-size: 0.875rem; color: var(--muted-foreground); display: flex; flex-direction: column; gap: 0.5rem;">
+                            <div><strong>Usuário:</strong> admin</div>
+                            <div><strong>Senha:</strong> doce123</div>
+                        </div>
+                    </div>
+
+                    <!-- BACK LINK -->
+                    <div style="margin-top: 2rem; text-align: center;">
+                        <a href="index.html" style="color: var(--primary); text-decoration: none; font-weight: 500;">← Voltar para o site</a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+

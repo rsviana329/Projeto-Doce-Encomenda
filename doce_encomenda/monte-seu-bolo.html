@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monte Seu Bolo - Doce Encomenda</title>
+    <meta name="description" content="Crie seu bolo personalizado escolhendo sabor, recheio, cobertura e decoração.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+        <!-- NAVBAR -->
+        <nav class="navbar">
+            <div class="navbar-content">
+                <a href="index.html" class="navbar-logo">
+                    <div class="navbar-logo-icon">🎂</div>
+                    <span class="navbar-logo-text">Doce Encomenda</span>
+                </a>
+
+                <div class="navbar-nav">
+                    <a href="catalogo.html" class="navbar-nav-link">Catálogo</a>
+                    <a href="sobre.html" class="navbar-nav-link">Sobre</a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main style="flex: 1;">
+            <div class="container" style="padding: 3rem 1rem;">
+                <div class="max-w-6xl">
+                    <!-- HEADER -->
+                    <div class="section-header">
+                        <div class="badge-personalizacao">Personalização Total</div>
+                        <h1>Monte Seu <span class="gradient-text">Bolo dos Sonhos</span></h1>
+                    </div>
+
+                    <!-- CUSTOMIZER -->
+                    <div class="customizer-grid">
+                        <div class="card customizer-card">
+                            <form action="#" method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                                <!-- TAMANHO -->
+                                <div class="form-group">
+                                    <label for="size" class="form-label">Tamanho *</label>
+                                    <div class="size-options-grid">
+                                        <label class="size-option">
+                                            <input type="radio" name="size" value="gigante" checked>
+                                            <div class="size-card">
+                                                <span class="size-title">Gigante (30cm)</span>
+                                                <span class="size-description">40-50 porções</span>
+                                                <span class="size-price">R$ 180.00</span>
+                                            </div>
+                                        </label>
+                                        <label class="size-option">
+                                            <input type="radio" name="size" value="grande">
+                                            <div class="size-card">
+                                                <span class="size-title">Grande (25cm)</span>
+                                                <span class="size-description">25-30 porções</span>
+                                                <span class="size-price">R$ 120.00</span>
+                                            </div>
+                                        </label>
+                                        <label class="size-option">
+                                            <input type="radio" name="size" value="medio">
+                                            <div class="size-card">
+                                                <span class="size-title">Médio (20cm)</span>
+                                                <span class="size-description">15-20 porções</span>
+                                                <span class="size-price">R$ 80.00</span>
+                                            </div>
+                                        </label>
+                                        <label class="size-option">
+                                            <input type="radio" name="size" value="pequeno">
+                                            <div class="size-card">
+                                                <span class="size-title">Pequeno (15cm)</span>
+                                                <span class="size-description">8-10 porções</span>
+                                                <span class="size-price">R$ 50.00</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- SABOR DA MASSA -->
+                                <div class="form-group">
+                                    <label for="saborMassa" class="form-label">Sabor da Massa *</label>
+                                    <select id="saborMassa" name="saborMassa" class="form-select">
+                                        <option value="">Selecione o sabor</option>
+                                        <option value="chocolate">Chocolate</option>
+                                        <option value="baunilha">Baunilha</option>
+                                        <option value="morango">Morango</option>
+                                    </select>
+                                </div>
+
+                                <!-- RECHEIO -->
+                                <div class="form-group">
+                                    <label for="recheio" class="form-label">Recheio *</label>
+                                    <select id="recheio" name="recheio" class="form-select">
+                                        <option value="">Selecione o recheio</option>
+                                        <option value="brigadeiro">Brigadeiro</option>
+                                        <option value="doceDeLeite">Doce de Leite</option>
+                                        <option value="mousseChocolate">Mousse de Chocolate</option>
+                                    </select>
+                                </div>
+
+                                <!-- COBERTURA -->
+                                <div class="form-group">
+                                    <label for="cobertura" class="form-label">Cobertura *</label>
+                                    <select id="cobertura" name="cobertura" class="form-select">
+                                        <option value="">Selecione a cobertura</option>
+                                        <option value="ganache">Ganache de Chocolate</option>
+                                        <option value="buttercream">Buttercream</option>
+                                        <option value="pastaAmericana">Pasta Americana</option>
+                                    </select>
+                                </div>
+
+                                <!-- DECORAÇÃO -->
+                                <div class="form-group">
+                                    <label for="decoracao" class="form-label">Decoração *</label>
+                                    <select id="decoracao" name="decoracao" class="form-select">
+                                        <option value="">Selecione a decoração</option>
+                                        <option value="frutas">Frutas Frescas</option>
+                                        <option value="flores">Flores Comestíveis</option>
+                                        <option value="confeitos">Confeitos Coloridos</option>
+                                    </select>
+                                </div>
+
+                                <!-- NÚMERO DE ANDARES -->
+                                <div class="form-group">
+                                    <label for="andares" class="form-label">Número de Andares *</label>
+                                    <div class="andares-options-grid">
+                                        <label class="andares-option">
+                                            <input type="radio" name="andares" value="1" checked>
+                                            <div class="andares-card">1 Andar</div>
+                                        </label>
+                                        <label class="andares-option">
+                                            <input type="radio" name="andares" value="2">
+                                            <div class="andares-card">2 Andares<br>+R$ 50.00</div>
+                                        </label>
+                                        <label class="andares-option">
+                                            <input type="radio" name="andares" value="3">
+                                            <div class="andares-card">3 Andares<br>+R$ 100.00</div>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- OBSERVAÇÕES ADICIONAIS -->
+                                <div class="form-group">
+                                    <label for="observacoes" class="form-label">Observações Adicionais</label>
+                                    <textarea id="observacoes" name="observacoes" class="form-textarea" placeholder="Ex: dedicatória, cores específicas, alergias, etc."></textarea>
+                                </div>
+
+                                <!-- RESUMO DO PEDIDO -->
+                                <div class="order-summary-card">
+                                    <h2 class="order-summary-title">Resumo do Pedido</h2>
+                                    <div class="order-summary-total">
+                                        <span class="order-summary-label">Total:</span>
+                                        <span class="order-summary-price">R$ 0.00</span>
+                                    </div>
+                                    <p class="order-summary-note">* Preços podem variar dependendo da complexidade da decoração</p>
+                                </div>
+
+                                <!-- BOTÕES DE AÇÃO -->
+                                <div class="action-buttons">
+                                    <a href="carrinho.html" class="btn btn-primary btn-lg">Adicionar ao Carrinho</a>
+                                    <a href="catalogo.html" class="btn btn-outline btn-lg">Ver Catálogo</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-grid">
+                        <div class="footer-section">
+                            <h3>
+                                <span class="footer-section-icon">📍</span>
+                                Localização
+                            </h3>
+                            <p>Rua das Flores, 123 - São Paulo, SP</p>
+                        </div>
+
+                        <div class="footer-section">
+                            <h3>
+                                <span class="footer-section-icon">📞</span>
+                                Contato
+                            </h3>
+                            <p>+55 11 98765-4321</p>
+                            <p>contato@doceencomenda.com.br</p>
+                        </div>
+
+                        <div class="footer-section">
+                            <h3>
+                                <span class="footer-section-icon">⏰</span>
+                                Horário de Funcionamento
+                            </h3>
+                            <div class="footer-hours">
+                                <div class="footer-hours-item"><span>Segunda a Sexta:</span> <span>9h - 18h</span></div>
+                                <div class="footer-hours-item"><span>Sábado:</span> <span>9h - 13h</span></div>
+                                <div class="footer-hours-item"><span>Domingo:</span> <span>Fechado</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-divider">
+                    © 2023 Doce Encomenda. Todos os direitos reservados.
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+

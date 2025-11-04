@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Área Administrativa - Doce Encomenda</title>
+    <meta name="description" content="Dashboard Administrativo - Doce Encomenda">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+        <!-- NAVBAR -->
+        <nav class="navbar" style="background-color: var(--card); border-bottom: 1px solid var(--border);">
+            <div class="navbar-content">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--muted-foreground);">Painel Admin</div>
+                </div>
+                <a href="admin-login.html" style="color: var(--foreground); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                    ↗ Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main style="flex: 1;">
+            <div class="container" style="padding: 2rem 1rem;">
+                <!-- HEADER -->
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="margin-bottom: 0.5rem;">Dashboard</h1>
+                    <p style="color: var(--muted-foreground);">Gerencie pedidos, produtos e opções de customização</p>
+                </div>
+
+                <!-- TABS -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); overflow-x: auto;">
+                    <button style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--primary); border-bottom: 2px solid var(--primary); cursor: pointer;">Pedidos</button>
+                    <a href="admin-produtos.html" style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; text-decoration: none;">Produtos</a>
+                    <a href="admin-opcoes.html" style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; text-decoration: none;">Opções</a>
+                </div>
+
+                <!-- TAB CONTENT: PEDIDOS -->
+                <div>
+                    <!-- SEARCH -->
+                    <div style="margin-bottom: 2rem;">
+                        <div style="display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1px solid var(--border); border-radius: 1rem; background-color: var(--card);">
+                            <span>🔍</span>
+                            <input type="text" placeholder="Buscar por nome do cliente..." style="flex: 1; border: none; background: none; font-family: inherit; font-size: 1rem; color: var(--foreground);">
+                        </div>
+                    </div>
+
+                    <!-- PEDIDOS LIST -->
+                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                        <!-- PEDIDO 1 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="margin: 0; margin-bottom: 0.25rem;">Rosy Silva</h3>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido #f1726b07</p>
+                                </div>
+                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ 410.00</span>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Contato</p>
+                                    <p style="margin: 0; font-weight: 500;">email@exemplo.com</p>
+                                    <p style="margin: 0; font-weight: 500;">(99) 99999-9999</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Entrega</p>
+                                    <p style="margin: 0; font-weight: 500;">23/10/2025 às 13:00</p>
+                                </div>
+                            </div>
+
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido feito em 21/10/2025</p>
+                        </div>
+
+                        <!-- PEDIDO 2 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="margin: 0; margin-bottom: 0.25rem;">Rosy Silva</h3>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido #fb9b2b34</p>
+                                </div>
+                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ 455.00</span>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Contato</p>
+                                    <p style="margin: 0; font-weight: 500;">email@exemplo.com</p>
+                                    <p style="margin: 0; font-weight: 500;">(99) 99999-9999</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Entrega</p>
+                                    <p style="margin: 0; font-weight: 500;">29/10/2025 às 16:00</p>
+                                </div>
+                            </div>
+
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido feito em 21/10/2025</p>
+                        </div>
+
+                        <!-- PEDIDO 3 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="margin: 0; margin-bottom: 0.25rem;">Rosy Silva</h3>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido #d47375a0</p>
+                                </div>
+                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ 340.00</span>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Contato</p>
+                                    <p style="margin: 0; font-weight: 500;">email@exemplo.com</p>
+                                    <p style="margin: 0; font-weight: 500;">(99) 99999-9999</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Entrega</p>
+                                    <p style="margin: 0; font-weight: 500;">29/10/2025 às 14:00</p>
+                                </div>
+                            </div>
+
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido feito em 21/10/2025</p>
+                        </div>
+
+                        <!-- PEDIDO 4 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
+                                <div>
+                                    <h3 style="margin: 0; margin-bottom: 0.25rem;">Rosy Silva</h3>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido #aadd8ae5</p>
+                                </div>
+                                <span style="font-size: 1.25rem; font-weight: 700; color: var(--primary);">R$ 180.00</span>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border);">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Contato</p>
+                                    <p style="margin: 0; font-weight: 500;">email@exemplo.com</p>
+                                    <p style="margin: 0; font-weight: 500;">(99) 99999-9999</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Entrega</p>
+                                    <p style="margin: 0; font-weight: 500;">29/10/2025 às 13:00</p>
+                                </div>
+                            </div>
+
+                            <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Pedido feito em 21/10/2025</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-divider">
+                    © 2025 Doce Encomenda - Painel Administrativo
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+

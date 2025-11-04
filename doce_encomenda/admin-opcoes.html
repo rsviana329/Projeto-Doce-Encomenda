@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opções de Customização - Área Administrativa - Doce Encomenda</title>
+    <meta name="description" content="Gerenciamento de Opções - Doce Encomenda">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; min-height: 100vh;">
+        <!-- NAVBAR -->
+        <nav class="navbar" style="background-color: var(--card); border-bottom: 1px solid var(--border);">
+            <div class="navbar-content">
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <div style="font-size: 1.25rem; font-weight: 700; color: var(--muted-foreground);">Painel Admin</div>
+                </div>
+                <a href="admin-login.html" style="color: var(--foreground); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 0.5rem;">
+                    ↗ Sair
+                </a>
+            </div>
+        </nav>
+
+        <!-- MAIN CONTENT -->
+        <main style="flex: 1;">
+            <div class="container" style="padding: 2rem 1rem;">
+                <!-- HEADER -->
+                <div style="margin-bottom: 2rem;">
+                    <h1 style="margin-bottom: 0.5rem;">Dashboard</h1>
+                    <p style="color: var(--muted-foreground);">Gerencie pedidos, produtos e opções de customização</p>
+                </div>
+
+                <!-- TABS -->
+                <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); overflow-x: auto;">
+                    <button style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer;">Pedidos</button>
+                    <button style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer;">Produtos</button>
+                    <button style="padding: 1rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--primary); border-bottom: 2px solid var(--primary); cursor: pointer;">Opções</button>
+                </div>
+
+                <!-- TAB CONTENT: OPÇÕES -->
+                <div>
+                    <!-- HEADER -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                        <h2 style="margin: 0;">Opções de Customização</h2>
+                        <button class="btn btn-primary" style="display: flex; align-items: center; gap: 0.5rem;">
+                            + Adicionar Opção
+                        </button>
+                    </div>
+
+                    <!-- TABS DE CATEGORIAS -->
+                    <div style="display: flex; gap: 1rem; margin-bottom: 2rem; border-bottom: 1px solid var(--border); overflow-x: auto;">
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--primary); border-bottom: 2px solid var(--primary); cursor: pointer; font-size: 0.95rem;">Tamanhos</button>
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; font-size: 0.95rem;">Sabores</button>
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; font-size: 0.95rem;">Recheios</button>
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; font-size: 0.95rem;">Coberturas</button>
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; font-size: 0.95rem;">Decorações</button>
+                        <button style="padding: 0.75rem 1.5rem; border: none; background: none; font-weight: 600; color: var(--muted-foreground); cursor: pointer; font-size: 0.95rem;">Andares</button>
+                    </div>
+
+                    <!-- OPÇÕES GRID -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
+                        <!-- OPÇÃO 1 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <h3 style="margin: 0 0 1rem 0;">Gigante (30cm)</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Preço:</p>
+                                    <p style="margin: 0; font-weight: 600;">+ R$ 180.00</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Descrição:</p>
+                                    <p style="margin: 0; font-weight: 500; font-size: 0.95rem;">40-50 porções</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Status:</p>
+                                    <p style="margin: 0; font-weight: 600; color: #10b981;">Ativo</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.75rem; background-color: var(--card); color: var(--foreground); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    ✎ Editar
+                                </button>
+                                <button style="padding: 0.75rem 1rem; border: none; border-radius: 0.75rem; background-color: #ef4444; color: white; font-weight: 600; cursor: pointer;">
+                                    🗑
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- OPÇÃO 2 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <h3 style="margin: 0 0 1rem 0;">Grande (25cm)</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Preço:</p>
+                                    <p style="margin: 0; font-weight: 600;">+ R$ 120.00</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Descrição:</p>
+                                    <p style="margin: 0; font-weight: 500; font-size: 0.95rem;">25-30 porções</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Status:</p>
+                                    <p style="margin: 0; font-weight: 600; color: #10b981;">Ativo</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.75rem; background-color: var(--card); color: var(--foreground); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    ✎ Editar
+                                </button>
+                                <button style="padding: 0.75rem 1rem; border: none; border-radius: 0.75rem; background-color: #ef4444; color: white; font-weight: 600; cursor: pointer;">
+                                    🗑
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- OPÇÃO 3 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <h3 style="margin: 0 0 1rem 0;">Médio (20cm)</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Preço:</p>
+                                    <p style="margin: 0; font-weight: 600;">+ R$ 80.00</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Descrição:</p>
+                                    <p style="margin: 0; font-weight: 500; font-size: 0.95rem;">15-20 porções</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Status:</p>
+                                    <p style="margin: 0; font-weight: 600; color: #10b981;">Ativo</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.75rem; background-color: var(--card); color: var(--foreground); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    ✎ Editar
+                                </button>
+                                <button style="padding: 0.75rem 1rem; border: none; border-radius: 0.75rem; background-color: #ef4444; color: white; font-weight: 600; cursor: pointer;">
+                                    🗑
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- OPÇÃO 4 -->
+                        <div class="card" style="padding: 1.5rem;">
+                            <h3 style="margin: 0 0 1rem 0;">Pequeno (15cm)</h3>
+                            <div style="display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1rem;">
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Preço:</p>
+                                    <p style="margin: 0; font-weight: 600;">+ R$ 50.00</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Descrição:</p>
+                                    <p style="margin: 0; font-weight: 500; font-size: 0.95rem;">8-10 porções</p>
+                                </div>
+                                <div>
+                                    <p style="margin: 0; font-size: 0.875rem; color: var(--muted-foreground);">Status:</p>
+                                    <p style="margin: 0; font-weight: 600; color: #10b981;">Ativo</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 0.75rem;">
+                                <button style="flex: 1; padding: 0.75rem; border: 1px solid var(--border); border-radius: 0.75rem; background-color: var(--card); color: var(--foreground); font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                                    ✎ Editar
+                                </button>
+                                <button style="padding: 0.75rem 1rem; border: none; border-radius: 0.75rem; background-color: #ef4444; color: white; font-weight: 600; cursor: pointer;">
+                                    🗑
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-divider">
+                    © 2025 Doce Encomenda - Painel Administrativo
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
+
