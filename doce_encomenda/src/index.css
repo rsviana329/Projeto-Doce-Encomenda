@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    --background: 320 60% 98%;
+    --foreground: 270 30% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 270 30% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 270 30% 20%;
+
+    --primary: 270 60% 65%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 330 70% 90%;
+    --secondary-foreground: 270 30% 20%;
+
+    --muted: 320 40% 95%;
+    --muted-foreground: 270 20% 50%;
+
+    --accent: 330 70% 85%;
+    --accent-foreground: 270 30% 20%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 320 30% 90%;
+    --input: 320 30% 90%;
+    --ring: 270 60% 65%;
+
+    --radius: 1rem;
+
+    --gradient-primary: linear-gradient(135deg, hsl(270 60% 75%), hsl(330 70% 80%));
+    --gradient-hero: linear-gradient(180deg, hsl(320 60% 98%), hsl(270 40% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(320 50% 98%));
+
+    --shadow-soft: 0 4px 20px -4px hsl(270 60% 65% / 0.15);
+    --shadow-card: 0 8px 30px -6px hsl(270 40% 50% / 0.12);
+    --shadow-hover: 0 12px 40px -8px hsl(270 60% 65% / 0.25);
+
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-hover {
+    box-shadow: var(--shadow-hover);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+}

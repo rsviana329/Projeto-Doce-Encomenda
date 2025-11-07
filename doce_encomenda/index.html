@@ -1,159 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doce Encomenda - Bolos Artesanais Personalizados</title>
-    <meta name="description" content="Crie o bolo perfeito para sua celebração. Bolos artesanais personalizados com amor e qualidade premium.">
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div style="display: flex; flex-direction: column; min-height: 100vh;">
-        <!-- NAVBAR -->
-        <nav class="navbar">
-            <div class="navbar-content">
-                <a href="index.html" class="navbar-logo">
-                    <div class="navbar-logo-icon">🎂</div>
-                    <span class="navbar-logo-text">Doce Encomenda</span>
-                </a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doce Encomenda</title>
+    <meta name="description" content="Crie o bolo perfeito para sua celebração. Bolos artesanais personalizados com amor e qualidade premium. Escolha sabores, recheios e decorações." />
+    <meta name="author" content="Doce Encomenda" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-                <div class="navbar-nav">
-                    <a href="catalogo.html" class="navbar-nav-link">Catálogo</a>
-                    <a href="sobre.html" class="navbar-nav-link">Sobre</a>
-                </div>
-            </div>
-        </nav>
+    <meta property="og:title" content="Doce Encomenda - Bolos Artesanais Personalizados" />
+    <meta property="og:description" content="Transforme seus momentos especiais em memórias doces. Bolos personalizados feitos com amor." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/src/assets/bolo-aniversario.jpg" />
 
-        <!-- MAIN CONTENT -->
-        <main style="flex: 1;">
-            <!-- HERO SECTION -->
-            <section class="gradient-hero" style="position: relative; padding: 5rem 1rem; overflow: hidden;">
-                <div class="hero-bg-element hero-bg-element-1"></div>
-                <div class="hero-bg-element hero-bg-element-2"></div>
+    <meta name="twitter:card" content="summary_large_image" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  </head>
 
-                <div class="container" style="position: relative; z-index: 10;">
-                    <div class="max-w-4xl" style="text-align: center; display: flex; flex-direction: column; gap: 2rem;">
-                        <div class="badge-small" style="justify-content: center; margin: 0 auto;">
-                            <span>✨</span>
-                            <span>Bolos artesanais feitos com amor</span>
-                        </div>
-
-                        <h1>
-                            Transforme seus momentos especiais em
-                            <span class="gradient-text" style="display: block;">memórias doces</span>
-                        </h1>
-
-                        <p style="font-size: 1.125rem; color: var(--muted-foreground); max-width: 42rem; margin: 0 auto;">
-                            Crie o bolo perfeito para sua celebração. Escolha sabores, recheios, coberturas e decorações. Cada bolo é único, assim como seu momento especial.
-                        </p>
-
-                        <div style="display: flex; flex-direction: column; gap: 1rem; justify-content: center;">
-                            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                                <a href="catalogo.html" class="btn btn-primary btn-lg">Ver Catálogo</a>
-                                <a href="monte-seu-bolo.html" class="btn btn-outline btn-lg">Monte Seu Bolo</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FEATURES SECTION -->
-            <section class="section">
-                <div class="container">
-                    <div class="grid grid-cols-1" style="max-width: 72rem; margin: 0 auto;">
-                        <div class="card card-gradient">
-                            <div class="feature-card">
-                                <div class="feature-icon">🎂</div>
-                                <h3 class="feature-title">Personalização Total</h3>
-                                <p class="feature-description">
-                                    Monte seu bolo do seu jeito. Escolha cada detalhe para criar algo único e especial.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card card-gradient">
-                            <div class="feature-card">
-                                <div class="feature-icon">❤️</div>
-                                <h3 class="feature-title">Feito com Carinho</h3>
-                                <p class="feature-description">
-                                    Cada bolo é preparado artesanalmente com ingredientes selecionados e muito amor.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="card card-gradient">
-                            <div class="feature-card">
-                                <div class="feature-icon">✨</div>
-                                <h3 class="feature-title">Pedido Simples</h3>
-                                <p class="feature-description">
-                                    Finalize seu pedido facilmente pelo WhatsApp. Rápido, prático e seguro.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- CTA SECTION -->
-            <section class="gradient-hero" style="padding: 5rem 1rem; text-align: center;">
-                <div class="container">
-                    <h2 style="margin-bottom: 2rem;">Pronto para criar seu bolo dos sonhos?</h2>
-                    <a href="monte-seu-bolo.html" class="btn btn-primary btn-lg">Começar Agora</a>
-                </div>
-            </section>
-        </main>
-
-        <!-- FOOTER -->
-        <footer class="footer">
-            <div class="container">
-                <div class="footer-content">
-                    <div class="footer-grid">
-                        <div class="footer-section">
-                            <h3>
-                                <span class="footer-section-icon">📍</span>
-                                Localização
-                            </h3>
-                            <p>Rua das Flores, 123 - São Paulo, SP</p>
-                        </div>
-
-                        <div class="footer-section">
-                            <h3>
-                                <span class="footer-section-icon">📞</span>
-                                Contato
-                            </h3>
-                            <p>(11) 98765-4321</p>
-                            <p>contato@doceencomenda.com.br</p>
-                        </div>
-
-                        <div class="footer-section">
-                            <h3>
-                                <span class="footer-section-icon">🕐</span>
-                                Horário de Funcionamento
-                            </h3>
-                            <div class="footer-hours">
-                                <div class="footer-hours-item">
-                                    <span>Segunda a Sexta:</span>
-                                    <span>09:00 - 18:00</span>
-                                </div>
-                                <div class="footer-hours-item">
-                                    <span>Sábado:</span>
-                                    <span>10:00 - 16:00</span>
-                                </div>
-                                <div class="footer-hours-item">
-                                    <span>Domingo:</span>
-                                    <span>Fechado</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="footer-divider">
-                        © 2025 Doce Encomenda. Todos os direitos reservados.
-                    </div>
-                </div>
-            </div>
-        </footer>
-    </div>
-</body>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
-
