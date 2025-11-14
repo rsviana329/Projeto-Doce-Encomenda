@@ -12,12 +12,16 @@ import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { useCart } from '@/contexts/CartContext';
+import { useBakerySettings, useBlockedDates, useAllFutureOrders } from '@/hooks/useBakerySettings';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 
 const Checkout = () => {
   const navigate = useNavigate();
   const { items, total } = useCart();
+  const { data: settings } = useBakerySettings();
+  const { data: blockedDates = [] } = useBlockedDates();
+  const { data: allFutureOrders = [] } = useAllFutureOrders();
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -40,6 +44,21 @@ const Checkout = () => {
   const [address, setAddress] = useState('');
   const [notes, setNotes] = useState('');
 
+  const getDayCakesCount = (checkDate: Date) => {
+    const dateStr = format(checkDate, 'yyyy-MM-dd');
+    return allFutureOrders.filter(order => order.delivery_date === dateStr).length;
+  };
+
+  const getScheduledOrders = (checkDate: Date) => {
+    const dateStr = format(checkDate, 'yyyy-MM-dd');
+    return allFutureOrders
+      .filter(order => order.delivery_date === dateStr)
+      .map(order => order.delivery_time);
+  };
+
+  const dayCakesCount = date ? getDayCakesCount(date) : 0;
+  const scheduledOrders = date ? getScheduledOrders(date) : [];
+
   useEffect(() => {
     if (items.length === 0) {
       navigate('/carrinho');
@@ -48,9 +67,60 @@ const Checkout = () => {
 
   const minDate = addDays(new Date(), 2);
 
-  const availableTimes = ['09:00', '10:00', '11:00', '14:00', '15:00', '16:00', '17:00'];
+  const isDateBlocked = (checkDate: Date) => {
+    // Verifica se a data está na lista de bloqueadas
+    const isManuallyBlocked = blockedDates.some(
+      (blocked) => format(blocked, 'yyyy-MM-dd') === format(checkDate, 'yyyy-MM-dd')
+    );
+    
+    // Verifica se o dia já atingiu o limite de bolos (só bloqueia se settings existir)
+    if (!settings) return isManuallyBlocked;
+    
+    const count = getDayCakesCount(checkDate);
+    const isDayFull = count >= settings.max_cakes_per_day;
+    
+    return isManuallyBlocked || isDayFull;
+  };
 
-  const handleSubmit = () => {
+  const isDayFull = settings ? dayCakesCount >= settings.max_cakes_per_day : false;
+
+  const getAvailableTimes = () => {
+    if (!date || !settings) return [];
+
+    // Mapeamento de dias em inglês para os settings
+    const dayMapping: { [key: string]: string } = {
+      'domingo': 'sunday',
+      'segunda-feira': 'monday',
+      'terça-feira': 'tuesday',
+      'quarta-feira': 'wednesday',
+      'quinta-feira': 'thursday',
+      'sexta-feira': 'friday',
+      'sábado': 'saturday'
+    };
+    
+    const dayNamePt = format(date, 'EEEE', { locale: ptBR }).toLowerCase();
+    const dayName = dayMapping[dayNamePt] || 'monday';
+    const daySchedule = settings.opening_hours[dayName];
+
+    if (!daySchedule || daySchedule.closed) return [];
+
+    const times: string[] = [];
+    const [openHour] = daySchedule.open!.split(':').map(Number);
+    const [closeHour] = daySchedule.close!.split(':').map(Number);
+
+    for (let hour = openHour; hour < closeHour; hour++) {
+      const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+      if (!scheduledOrders.includes(timeStr)) {
+        times.push(timeStr);
+      }
+    }
+
+    return times;
+  };
+
+  const availableTimes = getAvailableTimes();
+
+  const handleSubmit = async () => {
     if (!name || !phone || !date || !deliveryType) {
       toast.error('Preencha todos os campos obrigatórios');
       return;
@@ -61,22 +131,38 @@ const Checkout = () => {
       return;
     }
 
-    const whatsappData = {
-      customer: { name, phone },
-      delivery: {
-        date: format(date, 'dd/MM/yyyy'),
-        time: time || 'A combinar',
-        type: deliveryType,
-        address: deliveryType === 'Entrega' ? address : 'Retirada no local',
-      },
-      items,
-      total,
-      notes,
-    };
+    if (isDayFull) {
+      toast.error('Este dia já atingiu o limite máximo de 3 bolos. Por favor, selecione outra data.');
+      return;
+    }
 
-    localStorage.setItem('doce-encomenda-order-data', JSON.stringify(whatsappData));
-    toast.success('Pedido pronto! Redirecionando...');
-    setTimeout(() => navigate('/admin/whatsapp-preview'), 1000);
+    if (time && scheduledOrders.includes(time)) {
+      toast.error('Este horário já está ocupado. Por favor, selecione outro horário ou deixe em branco para combinar depois.');
+      return;
+    }
+
+    try {
+      // Preparar dados para WhatsApp (sem salvar no banco)
+      const whatsappData = {
+        customer: { name, phone },
+        delivery: {
+          date: format(date, 'dd/MM/yyyy'),
+          time: time || 'A combinar',
+          type: deliveryType,
+          address: deliveryType === 'Entrega' ? address : 'Retirada no local',
+        },
+        items,
+        total,
+        notes,
+      };
+
+      localStorage.setItem('doce-encomenda-order-data', JSON.stringify(whatsappData));
+      toast.success('Pedido preparado com sucesso! Redirecionando...');
+      setTimeout(() => navigate('/admin/whatsapp-preview'), 1000);
+    } catch (error) {
+      console.error('Error preparing order:', error);
+      toast.error('Erro ao preparar o pedido. Tente novamente.');
+    }
   };
 
   return (
@@ -142,7 +228,7 @@ const Checkout = () => {
                     mode="single"
                     selected={date}
                     onSelect={setDate}
-                    disabled={(date) => date < minDate}
+                    disabled={(date) => date < minDate || isDateBlocked(date)}
                     initialFocus
                   />
                 </PopoverContent>
@@ -152,7 +238,15 @@ const Checkout = () => {
               </p>
             </div>
 
-            {date && availableTimes.length > 0 && (
+            {date && isDayFull && (
+              <div className="p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+                <p className="text-sm text-destructive font-medium">
+                  ⚠️ Este dia já atingiu o limite máximo de 3 bolos. Por favor, selecione outra data.
+                </p>
+              </div>
+            )}
+
+            {date && !isDayFull && availableTimes.length > 0 && (
               <div className="space-y-3">
                 <Label htmlFor="time">Horário Preferencial</Label>
                 <Select value={time} onValueChange={setTime}>
@@ -167,6 +261,9 @@ const Checkout = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                <p className="text-sm text-muted-foreground">
+                  {dayCakesCount > 0 && `${dayCakesCount} de ${settings?.max_cakes_per_day} bolos agendados para este dia`}
+                </p>
               </div>
             )}
 

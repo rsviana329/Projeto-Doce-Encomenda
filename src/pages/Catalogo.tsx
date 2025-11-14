@@ -4,13 +4,14 @@ import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { mockProducts } from '@/data/mockData';
 import { Badge } from '@/components/ui/badge';
+import { useProducts } from '@/hooks/useProducts';
 
 const Catalogo = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const { products, loading } = useProducts(true);
 
-  const filteredProducts = mockProducts.filter(
+  const filteredProducts = products.filter(
     (product) =>
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase())
@@ -59,7 +60,9 @@ const Catalogo = () => {
         </Link>
 
         {/* Customizable Products */}
-        {customizableProducts.length > 0 && (
+        {loading ? (
+          <div className="text-center py-12">Carregando produtos...</div>
+        ) : customizableProducts.length > 0 && (
           <section className="space-y-6">
             <h2 className="text-2xl font-bold">Modelos Pré-Prontos</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -80,7 +83,7 @@ const Catalogo = () => {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-semibold text-primary">
-                        A partir de R$ {product.basePrice.toFixed(2)}
+                        A partir de R$ {product.base_price.toFixed(2)}
                       </span>
                       <Link to={`/produto/${product.id}`}>
                         <Button variant="hero">Personalizar</Button>
@@ -118,7 +121,7 @@ const Catalogo = () => {
                     </p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-semibold text-primary">
-                        R$ {product.basePrice.toFixed(2)}
+                        R$ {product.base_price.toFixed(2)}
                       </span>
                       <Link to={`/produto/${product.id}`}>
                         <Button variant="hero">Ver Modelo</Button>

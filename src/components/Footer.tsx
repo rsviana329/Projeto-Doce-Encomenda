@@ -1,20 +1,9 @@
 import { MapPin, Phone, Clock } from 'lucide-react';
+import { useBakerySettings } from '@/hooks/useBakerySettings';
+import { Skeleton } from './ui/skeleton';
 
 const Footer = () => {
-  const settings = {
-    address: 'Rua das Flores, 123 - Centro',
-    phone: '(11) 99999-9999',
-    email: 'contato@doceencomenda.com.br',
-    opening_hours: {
-      monday: { open: '09:00', close: '18:00' },
-      tuesday: { open: '09:00', close: '18:00' },
-      wednesday: { open: '09:00', close: '18:00' },
-      thursday: { open: '09:00', close: '18:00' },
-      friday: { open: '09:00', close: '18:00' },
-      saturday: { open: '10:00', close: '14:00' },
-      sunday: { closed: true },
-    }
-  };
+  const { data: settings, isLoading } = useBakerySettings();
 
   const dayNames: { [key: string]: string } = {
     monday: 'Segunda',
@@ -36,7 +25,11 @@ const Footer = () => {
               <MapPin className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Localização</h3>
             </div>
-            <p className="text-muted-foreground">{settings.address}</p>
+            {isLoading ? (
+              <Skeleton className="h-12 w-full" />
+            ) : (
+              <p className="text-muted-foreground">{settings?.address}</p>
+            )}
           </div>
 
           {/* Contato */}
@@ -45,10 +38,14 @@ const Footer = () => {
               <Phone className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Contato</h3>
             </div>
-            <div className="space-y-2 text-muted-foreground">
-              <p>{settings.phone}</p>
-              <p>{settings.email}</p>
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-16 w-full" />
+            ) : (
+              <div className="space-y-2 text-muted-foreground">
+                <p>{settings?.phone}</p>
+                <p>{settings?.email}</p>
+              </div>
+            )}
           </div>
 
           {/* Horário */}
@@ -57,16 +54,21 @@ const Footer = () => {
               <Clock className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Horário de Funcionamento</h3>
             </div>
-            <div className="space-y-1 text-sm text-muted-foreground">
-              {Object.entries(settings.opening_hours).map(([day, hours]: [string, any]) => (
-                <div key={day} className="flex justify-between">
-                  <span>{dayNames[day]}:</span>
-                  <span>
-                    {hours.closed ? 'Fechado' : `${hours.open} - ${hours.close}`}
-                  </span>
-                </div>
-              ))}
-            </div>
+            {isLoading ? (
+              <Skeleton className="h-32 w-full" />
+            ) : (
+              <div className="space-y-1 text-sm text-muted-foreground">
+                {settings?.opening_hours &&
+                  Object.entries(settings.opening_hours).map(([day, hours]) => (
+                    <div key={day} className="flex justify-between">
+                      <span>{dayNames[day]}:</span>
+                      <span>
+                        {hours.closed ? 'Fechado' : `${hours.open} - ${hours.close}`}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            )}
           </div>
         </div>
 
