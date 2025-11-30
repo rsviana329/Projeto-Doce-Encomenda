@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/contexts/CartContext';
 import { toast } from 'sonner';
+<<<<<<< HEAD
 import {
   standardSizes,
   standardFlavors,
@@ -18,10 +19,24 @@ import {
   standardDecorations,
   layers,
 } from '@/data/mockData';
+=======
+import { useCustomizationOptions } from '@/hooks/useCustomizationOptions';
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 
 const MonteSeuBolo = () => {
   const navigate = useNavigate();
   const { addItem } = useCart();
+<<<<<<< HEAD
+=======
+  const { getOptionsByType, loading } = useCustomizationOptions(true);
+
+  const sizes = getOptionsByType('size');
+  const flavors = getOptionsByType('flavor');
+  const fillings = getOptionsByType('filling');
+  const coverings = getOptionsByType('covering');
+  const decorations = getOptionsByType('decoration');
+  const layers = getOptionsByType('layer');
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 
   const [size, setSize] = useState('');
   const [flavor, setFlavor] = useState('');
@@ -34,6 +49,7 @@ const MonteSeuBolo = () => {
   const calculateTotal = () => {
     let total = 0;
     
+<<<<<<< HEAD
     const selectedSize = standardSizes.find((s) => s.id === size);
     if (selectedSize) total += selectedSize.price;
 
@@ -50,6 +66,24 @@ const MonteSeuBolo = () => {
     if (selectedDecoration) total += selectedDecoration.price;
 
     const selectedLayers = layers.find((l) => l.id === layersCount);
+=======
+    const selectedSize = sizes.find((s) => s.option_id === size);
+    if (selectedSize) total += selectedSize.price;
+
+    const selectedFlavor = flavors.find((f) => f.option_id === flavor);
+    if (selectedFlavor) total += selectedFlavor.price;
+
+    const selectedFilling = fillings.find((f) => f.option_id === filling);
+    if (selectedFilling) total += selectedFilling.price;
+
+    const selectedCovering = coverings.find((c) => c.option_id === covering);
+    if (selectedCovering) total += selectedCovering.price;
+
+    const selectedDecoration = decorations.find((d) => d.option_id === decoration);
+    if (selectedDecoration) total += selectedDecoration.price;
+
+    const selectedLayers = layers.find((l) => l.option_id === layersCount);
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
     if (selectedLayers) total += selectedLayers.price;
 
     return total;
@@ -61,11 +95,19 @@ const MonteSeuBolo = () => {
       return;
     }
 
+<<<<<<< HEAD
     const selectedSize = standardSizes.find((s) => s.id === size);
     const selectedFlavor = standardFlavors.find((f) => f.id === flavor);
     const selectedFilling = standardFillings.find((f) => f.id === filling);
     const selectedCovering = standardCoverings.find((c) => c.id === covering);
     const selectedDecoration = standardDecorations.find((d) => d.id === decoration);
+=======
+    const selectedSize = sizes.find((s) => s.option_id === size);
+    const selectedFlavor = flavors.find((f) => f.option_id === flavor);
+    const selectedFilling = fillings.find((f) => f.option_id === filling);
+    const selectedCovering = coverings.find((c) => c.option_id === covering);
+    const selectedDecoration = decorations.find((d) => d.option_id === decoration);
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 
     addItem({
       productId: 'custom',
@@ -104,18 +146,34 @@ const MonteSeuBolo = () => {
         </div>
 
         {/* Form */}
+<<<<<<< HEAD
         <Card className="shadow-card border-0">
           <CardContent className="p-8 space-y-8">
+=======
+        {loading ? (
+          <div className="text-center py-12">Carregando opções...</div>
+        ) : (
+          <Card className="shadow-card border-0">
+            <CardContent className="p-8 space-y-8">
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
             {/* Size */}
             <div className="space-y-4">
               <Label className="text-lg font-semibold">Tamanho *</Label>
               <RadioGroup value={size} onValueChange={setSize}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+<<<<<<< HEAD
                   {standardSizes.map((s) => (
                     <div key={s.id} className="relative">
                       <RadioGroupItem value={s.id} id={s.id} className="peer sr-only" />
                       <Label
                         htmlFor={s.id}
+=======
+                  {sizes.map((s) => (
+                    <div key={s.id} className="relative">
+                      <RadioGroupItem value={s.option_id} id={s.option_id} className="peer sr-only" />
+                      <Label
+                        htmlFor={s.option_id}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                         className="flex flex-col p-4 border-2 rounded-2xl cursor-pointer transition-smooth hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 shadow-soft"
                       >
                         <span className="font-semibold">{s.name}</span>
@@ -136,8 +194,13 @@ const MonteSeuBolo = () => {
                   <SelectValue placeholder="Selecione o sabor" />
                 </SelectTrigger>
                 <SelectContent>
+<<<<<<< HEAD
                   {standardFlavors.map((f) => (
                     <SelectItem key={f.id} value={f.id}>
+=======
+                  {flavors.map((f) => (
+                    <SelectItem key={f.id} value={f.option_id}>
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                       {f.name} {f.price > 0 && `(+R$ ${f.price.toFixed(2)})`}
                     </SelectItem>
                   ))}
@@ -153,8 +216,13 @@ const MonteSeuBolo = () => {
                   <SelectValue placeholder="Selecione o recheio" />
                 </SelectTrigger>
                 <SelectContent>
+<<<<<<< HEAD
                   {standardFillings.map((f) => (
                     <SelectItem key={f.id} value={f.id}>
+=======
+                  {fillings.map((f) => (
+                    <SelectItem key={f.id} value={f.option_id}>
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                       {f.name} {f.price !== 0 && `(${f.price > 0 ? '+' : ''}R$ ${f.price.toFixed(2)})`}
                     </SelectItem>
                   ))}
@@ -170,8 +238,13 @@ const MonteSeuBolo = () => {
                   <SelectValue placeholder="Selecione a cobertura" />
                 </SelectTrigger>
                 <SelectContent>
+<<<<<<< HEAD
                   {standardCoverings.map((c) => (
                     <SelectItem key={c.id} value={c.id}>
+=======
+                  {coverings.map((c) => (
+                    <SelectItem key={c.id} value={c.option_id}>
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                       {c.name} {c.price !== 0 && `(${c.price > 0 ? '+' : ''}R$ ${c.price.toFixed(2)})`}
                     </SelectItem>
                   ))}
@@ -187,8 +260,13 @@ const MonteSeuBolo = () => {
                   <SelectValue placeholder="Selecione a decoração" />
                 </SelectTrigger>
                 <SelectContent>
+<<<<<<< HEAD
                   {standardDecorations.map((d) => (
                     <SelectItem key={d.id} value={d.id}>
+=======
+                  {decorations.map((d) => (
+                    <SelectItem key={d.id} value={d.option_id}>
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                       {d.name} {d.price !== 0 && `(${d.price > 0 ? '+' : ''}R$ ${d.price.toFixed(2)})`}
                     </SelectItem>
                   ))}
@@ -203,9 +281,15 @@ const MonteSeuBolo = () => {
                 <div className="grid grid-cols-3 gap-4">
                   {layers.map((l) => (
                     <div key={l.id} className="relative">
+<<<<<<< HEAD
                       <RadioGroupItem value={l.id} id={`layer-${l.id}`} className="peer sr-only" />
                       <Label
                         htmlFor={`layer-${l.id}`}
+=======
+                      <RadioGroupItem value={l.option_id} id={`layer-${l.option_id}`} className="peer sr-only" />
+                      <Label
+                        htmlFor={`layer-${l.option_id}`}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
                         className="flex flex-col items-center p-4 border-2 rounded-2xl cursor-pointer transition-smooth hover:border-primary/50 peer-data-[state=checked]:border-primary peer-data-[state=checked]:bg-primary/5 shadow-soft"
                       >
                         <span className="font-semibold">{l.name}</span>
@@ -230,8 +314,14 @@ const MonteSeuBolo = () => {
                 className="min-h-24"
               />
             </div>
+<<<<<<< HEAD
           </CardContent>
         </Card>
+=======
+            </CardContent>
+          </Card>
+        )}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 
         {/* Summary */}
         <Card className="gradient-card border-0 shadow-card">

@@ -1,4 +1,5 @@
 import { MapPin, Phone, Clock } from 'lucide-react';
+<<<<<<< HEAD
 
 const Footer = () => {
   const settings = {
@@ -15,6 +16,13 @@ const Footer = () => {
       sunday: { closed: true },
     }
   };
+=======
+import { useBakerySettings } from '@/hooks/useBakerySettings';
+import { Skeleton } from './ui/skeleton';
+
+const Footer = () => {
+  const { data: settings, isLoading } = useBakerySettings();
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 
   const dayNames: { [key: string]: string } = {
     monday: 'Segunda',
@@ -36,7 +44,15 @@ const Footer = () => {
               <MapPin className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Localização</h3>
             </div>
+<<<<<<< HEAD
             <p className="text-muted-foreground">{settings.address}</p>
+=======
+            {isLoading ? (
+              <Skeleton className="h-12 w-full" />
+            ) : (
+              <p className="text-muted-foreground">{settings?.address}</p>
+            )}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
           </div>
 
           {/* Contato */}
@@ -45,10 +61,21 @@ const Footer = () => {
               <Phone className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Contato</h3>
             </div>
+<<<<<<< HEAD
             <div className="space-y-2 text-muted-foreground">
               <p>{settings.phone}</p>
               <p>{settings.email}</p>
             </div>
+=======
+            {isLoading ? (
+              <Skeleton className="h-16 w-full" />
+            ) : (
+              <div className="space-y-2 text-muted-foreground">
+                <p>{settings?.phone}</p>
+                <p>{settings?.email}</p>
+              </div>
+            )}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
           </div>
 
           {/* Horário */}
@@ -57,6 +84,7 @@ const Footer = () => {
               <Clock className="w-5 h-5 text-primary" />
               <h3 className="font-semibold text-lg">Horário de Funcionamento</h3>
             </div>
+<<<<<<< HEAD
             <div className="space-y-1 text-sm text-muted-foreground">
               {Object.entries(settings.opening_hours).map(([day, hours]: [string, any]) => (
                 <div key={day} className="flex justify-between">
@@ -67,6 +95,23 @@ const Footer = () => {
                 </div>
               ))}
             </div>
+=======
+            {isLoading ? (
+              <Skeleton className="h-32 w-full" />
+            ) : (
+              <div className="space-y-1 text-sm text-muted-foreground">
+                {settings?.opening_hours &&
+                  Object.entries(settings.opening_hours).map(([day, hours]) => (
+                    <div key={day} className="flex justify-between">
+                      <span>{dayNames[day]}:</span>
+                      <span>
+                        {hours.closed ? 'Fechado' : `${hours.open} - ${hours.close}`}
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            )}
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
           </div>
         </div>
 

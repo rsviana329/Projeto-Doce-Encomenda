@@ -7,7 +7,10 @@ import { CartProvider } from "@/contexts/CartContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+<<<<<<< HEAD
 import Index from "./pages/Index";
+=======
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 import Home from "./pages/Home";
 import Catalogo from "./pages/Catalogo";
 import MonteSeuBolo from "./pages/MonteSeuBolo";

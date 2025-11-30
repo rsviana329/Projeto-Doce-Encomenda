@@ -3,8 +3,15 @@ import { MessageSquare, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+<<<<<<< HEAD
 
 const WhatsAppPreview = () => {
+=======
+import { useBakerySettings } from '@/hooks/useBakerySettings';
+
+const WhatsAppPreview = () => {
+  const { data: settings } = useBakerySettings();
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
   const [orderData, setOrderData] = useState<any>(null);
   const [copied, setCopied] = useState(false);
 
@@ -62,7 +69,11 @@ const WhatsAppPreview = () => {
     return message;
   };
 
+<<<<<<< HEAD
   const whatsappNumber = '5511999999999';
+=======
+  const whatsappNumber = settings?.phone.replace(/\D/g, '') || '';
+>>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
   const message = formatMessage();
   const encodedMessage = encodeURIComponent(message);
   const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
