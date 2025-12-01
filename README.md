@@ -1,71 +1,3 @@
-<<<<<<< HEAD
-# Doce Encomenda - Website
-
-## Project info
-
-This is the official repository for Doce Encomenda, a bakery specializing in custom artisan cakes.
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-To deploy this project, you can use any static hosting service like Netlify, Vercel, or GitHub Pages.
-
-1. Build the project using `npm run build`
-2. Upload the contents of the `dist` folder to your hosting provider
-
-## Custom Domain Setup
-
-Most hosting providers offer custom domain setup. Check their documentation for specific instructions on connecting your domain.
-=======
 # Doce Encomenda - Plataforma Web para Encomendas de Bolos Personalizados
 
 **NOME DO SISTEMA:**  
@@ -82,7 +14,7 @@ Matrícula: 2020034224
 
 ## 📖 Sobre o Projeto
 
-O **Doce Encomenda** é uma plataforma web completa desenvolvida para facilitar o processo de encomenda de bolos personalizados e prontos. O sistema oferece uma experiência intuitiva tanto para clientes quanto para administradores, permitindo customização completa de bolos, gerenciamento de carrinho de compras e integração com WhatsApp para finalização de pedidos.
+O Doce Encomenda é uma plataforma web completa desenvolvida para facilitar o processo de encomenda de bolos personalizados e prontos. O sistema oferece uma experiência intuitiva tanto para clientes quanto para administradores, permitindo customização completa de bolos, gerenciamento de carrinho de compras e integração com WhatsApp para finalização de pedidos.
 
 ### 🎯 Objetivo
 
@@ -122,7 +54,15 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
    yarn install
    ```
 
-3. **Inicie o servidor de desenvolvimento**
+3. **Configure as variáveis de ambiente**
+
+   Crie um arquivo `.env` na raiz do projeto e informe as credenciais do banco de dados:
+
+   ```env
+   VITE_SUPABASE_URL=...
+   VITE_SUPABASE_ANON_KEY=...
+
+4. **Inicie o servidor de desenvolvimento**
    ```bash
    npm run dev
    ```
@@ -131,7 +71,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
    yarn dev
    ```
 
-4. **Acesse a aplicação**
+5. **Acesse a aplicação**
    
    Abra seu navegador e acesse: `http://localhost:5173`
 
@@ -327,6 +267,10 @@ doce-encomenda/
 - **TypeScript** - Superset JavaScript com tipagem estática
 - **Vite** - Build tool moderna e rápida
 
+### Backend / Dados
+
+* **Supabase** – Banco de dados e API para persistência das informações
+
 ### Estilização
 - **Tailwind CSS** - Framework CSS utility-first
 - **tailwindcss-animate** - Animações para Tailwind
@@ -409,35 +353,23 @@ Mais de 50 componentes UI prontos para uso:
 
 ## 💾 Gerenciamento de Dados
 
-### Dados Mock (Local)
+### Banco de Dados
 
-O sistema utiliza dados mock armazenados localmente em `src/data/mockData.ts`:
-
-```typescript
-// Estrutura de dados incluí:
-- products: Array de produtos (prontos e personalizáveis)
-- customizationOptions: Opções de personalização
-  - sizes (tamanhos)
-  - flavors (sabores)
-  - fillings (recheios)
-  - toppings (coberturas)
-  - decorations (decorações)
-  - layers (andares)
-- bakerySettings: Configurações da confeitaria
-```
+O sistema utiliza banco de dados para armazenar produtos, opções de personalização e configurações da confeitaria, permitindo persistência das informações entre sessões e ambiente administrativo funcional.
 
 ### Context API
 
 #### CartContext
-- Adicionar/remover itens
-- Atualizar quantidades
-- Calcular totais
-- Limpar carrinho
+
+* Gerenciamento de itens do carrinho
+* Atualização de quantidades
+* Cálculo de totais
 
 #### AdminContext
-- Login/logout
-- Verificação de autenticação
-- Proteção de rotas
+
+* Autenticação
+* Controle de sessão
+* Proteção de rotas administrativas
 
 ---
 
@@ -519,4 +451,3 @@ Este projeto foi desenvolvido para fins de avaliação em disciplina acadêmica.
 
 **Data de Desenvolvimento:** Outubro de 2025  
 **Versão:** 1.0.0
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
