@@ -79,7 +79,7 @@ Antes de começar, certifique-se de ter instalado em sua máquina:
 
 5. **Acesse a aplicação**
    
-   Abra seu navegador e acesse: `http://localhost:5173`
+   Abra seu navegador e acesse: `http://localhost:8080`
 
 ### 📂 Arquivo Inicial
 
