@@ -1,1 +1,4 @@
-project_id = "edoqicvzeezgvqnwpoqw"
+project_id = "unbyydcnqcyluhgarabv"
+
+[functions.send-order-webhook]
+verify_jwt = false

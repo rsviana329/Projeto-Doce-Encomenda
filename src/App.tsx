@@ -7,10 +7,6 @@ import { CartProvider } from "@/contexts/CartContext";
 import { AdminProvider } from "@/contexts/AdminContext";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-<<<<<<< HEAD
-import Index from "./pages/Index";
-=======
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
 import Home from "./pages/Home";
 import Catalogo from "./pages/Catalogo";
 import MonteSeuBolo from "./pages/MonteSeuBolo";
@@ -20,7 +16,6 @@ import Checkout from "./pages/Checkout";
 import Sobre from "./pages/Sobre";
 import AdminLogin from "./pages/admin/Login";
 import AdminDashboard from "./pages/admin/Dashboard";
-import WhatsAppPreview from "./pages/admin/WhatsAppPreview";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -46,7 +41,6 @@ const App = () => (
                   <Route path="/sobre" element={<Sobre />} />
                   <Route path="/admin/login" element={<AdminLogin />} />
                   <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                  <Route path="/admin/whatsapp-preview" element={<WhatsAppPreview />} />
                   {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>

@@ -5,6 +5,7 @@ export interface CartItem {
   productId: string;
   name: string;
   image: string;
+  customImage?: string; // Imagem enviada pelo usuário ou gerada por IA
   basePrice: number;
   options?: {
     size?: string;
@@ -12,7 +13,7 @@ export interface CartItem {
     filling?: string;
     covering?: string;
     decoration?: string;
-    layers?: number;
+    layers?: string;
     theme?: string;
     color?: string;
     notes?: string;

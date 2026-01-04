@@ -1,103 +1,52 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-<<<<<<< HEAD
-import { LogOut, Search } from 'lucide-react';
+import { LogOut, Plus, Pencil, Trash2, Package, ShoppingBag, Settings, ChevronDown, ChevronUp, MapPin, FileText, Image, Filter, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useAdmin } from '@/contexts/AdminContext';
-import { 
-  mockProducts, 
-  standardSizes, 
-  standardFlavors, 
-  standardFillings, 
-  standardCoverings, 
-  standardDecorations,
-  layers 
-} from '@/data/mockData';
-
-=======
-import { LogOut, Search, Plus, Edit, Trash2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Calendar } from '@/components/ui/calendar';
 import { useAdmin } from '@/contexts/AdminContext';
-import { toast } from '@/hooks/use-toast';
-import ProductForm from '@/components/admin/ProductForm';
-import CustomizationOptionForm from '@/components/admin/CustomizationOptionForm';
-import { useProducts } from '@/hooks/useProducts';
-import { useCustomizationOptions } from '@/hooks/useCustomizationOptions';
-
-interface Order {
-  id: string;
-  customer_name: string;
-  customer_email: string;
-  customer_phone: string;
-  customer_address: string;
-  delivery_date: string;
-  delivery_time: string;
-  total_price: number;
-  notes: string;
-  status: string;
-  created_at: string;
-}
-
-interface Product {
-  id: string;
-  name: string;
-  description: string;
-  image: string;
-  base_price: number;
-  category: string;
-  is_active: boolean;
-  type: 'customizable' | 'ready-made';
-  allowed_options?: any;
-  default_options?: any;
-}
-
-interface CustomizationOption {
-  id: string;
-  option_type: string;
-  option_id: string;
-  name: string;
-  price: number;
-  description?: string;
-  is_active: boolean;
-}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+import { useOrders } from '@/hooks/useOrders';
+import { useProducts, Product } from '@/hooks/useProducts';
+import { useCustomizationOptions, CustomizationOption } from '@/hooks/useCustomizationOptions';
+import { ProductFormDialog } from '@/components/admin/ProductFormDialog';
+import { OptionFormDialog } from '@/components/admin/OptionFormDialog';
+import { DeleteConfirmDialog } from '@/components/admin/DeleteConfirmDialog';
+import { format, isWithinInterval, startOfDay, endOfDay, parseISO } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
+import { DateRange } from 'react-day-picker';
 
 const Dashboard = () => {
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAdmin();
   
-<<<<<<< HEAD
-  const [searchTerm, setSearchTerm] = useState('');
   const [activeOptionTab, setActiveOptionTab] = useState('size');
-=======
-  // Usar hooks para produtos e opções
-  const { products: productsData, loading: productsLoading, refetch: refetchProducts } = useProducts(false);
-  const { options: optionsData, loading: optionsLoading, getOptionsByType } = useCustomizationOptions(false);
+  const [expandedOrders, setExpandedOrders] = useState<Set<string>>(new Set());
   
-  // Orders state (vazio pois não há banco de dados)
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  // Orders state
+  const { orders, loading: ordersLoading, updateOrderStatus, deleteOrder } = useOrders();
+  const [orderToDelete, setOrderToDelete] = useState<string | null>(null);
+  
+  // Filters state
+  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [dateRange, setDateRange] = useState<DateRange | undefined>(undefined);
   
   // Products state
+  const { products, loading: productsLoading, createProduct, updateProduct, deleteProduct } = useProducts();
+  const [productDialogOpen, setProductDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [isProductDialogOpen, setIsProductDialogOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<string | null>(null);
   
   // Options state
+  const { options, loading: optionsLoading, createOption, updateOption, deleteOption, getOptionsByType } = useCustomizationOptions();
+  const [optionDialogOpen, setOptionDialogOpen] = useState(false);
   const [editingOption, setEditingOption] = useState<CustomizationOption | null>(null);
-  const [isOptionDialogOpen, setIsOptionDialogOpen] = useState(false);
-  const [activeOptionTab, setActiveOptionTab] = useState('size');
-  
-  const loading = productsLoading || optionsLoading;
-  const products = productsData;
-  const options = optionsData;
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+  const [optionToDelete, setOptionToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -110,80 +59,6 @@ const Dashboard = () => {
     navigate('/admin/login');
   };
 
-<<<<<<< HEAD
-  const filteredOrders: any[] = [];
-
-  const optionTypes = [
-    { value: 'size', label: 'Tamanhos', options: standardSizes },
-    { value: 'flavor', label: 'Sabores', options: standardFlavors },
-    { value: 'filling', label: 'Recheios', options: standardFillings },
-    { value: 'covering', label: 'Coberturas', options: standardCoverings },
-    { value: 'decoration', label: 'Decorações', options: standardDecorations },
-    { value: 'layer', label: 'Andares', options: layers },
-  ];
-
-  const getOptionsByType = (type: string) => {
-    const typeConfig = optionTypes.find(t => t.value === type);
-    return typeConfig?.options || [];
-  };
-
-=======
-  // Product handlers
-  const handleDeleteProduct = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir este produto?')) return;
-
-    toast({
-      title: 'Informação',
-      description: 'Exclusão de produtos não está disponível sem banco de dados.',
-    });
-  };
-
-  const handleEditProduct = (product: Product) => {
-    setEditingProduct(product);
-    setIsProductDialogOpen(true);
-  };
-
-  const handleAddProduct = () => {
-    setEditingProduct(null);
-    setIsProductDialogOpen(true);
-  };
-
-  const handleProductFormSuccess = () => {
-    setIsProductDialogOpen(false);
-    setEditingProduct(null);
-    refetchProducts();
-  };
-
-  // Option handlers
-  const handleDeleteOption = async (id: string) => {
-    if (!confirm('Tem certeza que deseja excluir esta opção?')) return;
-
-    toast({
-      title: 'Informação',
-      description: 'Exclusão de opções não está disponível sem banco de dados.',
-    });
-  };
-
-  const handleEditOption = (option: CustomizationOption) => {
-    setEditingOption(option);
-    setIsOptionDialogOpen(true);
-  };
-
-  const handleAddOption = () => {
-    setEditingOption(null);
-    setIsOptionDialogOpen(true);
-  };
-
-  const handleOptionFormSuccess = () => {
-    setIsOptionDialogOpen(false);
-    setEditingOption(null);
-    // Não precisa refetch pois os dados são mock
-  };
-
-  const filteredOrders = orders.filter(order =>
-    order.customer_name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const optionTypes = [
     { value: 'size', label: 'Tamanhos' },
     { value: 'flavor', label: 'Sabores' },
@@ -193,14 +68,87 @@ const Dashboard = () => {
     { value: 'layer', label: 'Andares' },
   ];
 
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+  const handleProductSubmit = async (data: Omit<Product, 'id' | 'created_at' | 'updated_at'>) => {
+    if (editingProduct) {
+      await updateProduct(editingProduct.id, data);
+    } else {
+      await createProduct(data);
+    }
+    setEditingProduct(null);
+  };
+
+  const handleOptionSubmit = async (data: Omit<CustomizationOption, 'id' | 'created_at' | 'updated_at'>) => {
+    if (editingOption) {
+      await updateOption(editingOption.id, data);
+    } else {
+      await createOption(data);
+    }
+    setEditingOption(null);
+  };
+
+  const orderStatuses = [
+    { value: 'pending', label: 'Pendente', variant: 'secondary' as const },
+    { value: 'confirmed', label: 'Confirmado', variant: 'default' as const },
+    { value: 'preparing', label: 'Preparando', variant: 'outline' as const },
+    { value: 'ready', label: 'Pronto', variant: 'default' as const },
+    { value: 'delivered', label: 'Entregue', variant: 'default' as const },
+    { value: 'cancelled', label: 'Cancelado', variant: 'destructive' as const },
+  ];
+
+  const getStatusBadge = (status: string) => {
+    const config = orderStatuses.find(s => s.value === status) || { label: status, variant: 'secondary' as const };
+    return <Badge variant={config.variant}>{config.label}</Badge>;
+  };
+
+  const toggleOrderExpanded = (orderId: string) => {
+    setExpandedOrders(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(orderId)) {
+        newSet.delete(orderId);
+      } else {
+        newSet.add(orderId);
+      }
+      return newSet;
+    });
+  };
+
+  // Filtered orders
+  const filteredOrders = useMemo(() => {
+    return orders.filter(order => {
+      // Status filter
+      if (statusFilter !== 'all' && order.status !== statusFilter) {
+        return false;
+      }
+      
+      // Date range filter
+      if (dateRange?.from) {
+        const orderDate = parseISO(order.created_at);
+        const from = startOfDay(dateRange.from);
+        const to = dateRange.to ? endOfDay(dateRange.to) : endOfDay(dateRange.from);
+        
+        if (!isWithinInterval(orderDate, { start: from, end: to })) {
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  }, [orders, statusFilter, dateRange]);
+
+  const clearFilters = () => {
+    setStatusFilter('all');
+    setDateRange(undefined);
+  };
+
+  const hasActiveFilters = statusFilter !== 'all' || dateRange?.from;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen gradient-hero">
       {/* Navbar */}
-      <nav className="border-b border-border/40 bg-white/80 backdrop-blur shadow-soft">
+      <nav className="border-b border-border/40 bg-card/80 backdrop-blur shadow-soft">
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <h1 className="text-xl font-bold gradient-text">Painel Admin</h1>
-          <Button variant="ghost" onClick={handleLogout}>
+          <Button variant="ghost" onClick={handleLogout} className="hover:bg-secondary">
             <LogOut className="w-5 h-5 mr-2" />
             Sair
           </Button>
@@ -208,185 +156,376 @@ const Dashboard = () => {
       </nav>
 
       {/* Content */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto space-y-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">Dashboard</h1>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2 gradient-text">Dashboard</h1>
             <p className="text-lg text-muted-foreground">
               Gerencie pedidos, produtos e opções de customização
             </p>
           </div>
 
           <Tabs defaultValue="orders" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="orders">Pedidos</TabsTrigger>
-              <TabsTrigger value="products">Produtos</TabsTrigger>
-              <TabsTrigger value="options">Opções</TabsTrigger>
+            <TabsList className="grid w-full grid-cols-3 bg-card shadow-soft">
+              <TabsTrigger value="orders" className="flex items-center gap-2 data-[state=active]:gradient-primary data-[state=active]:text-primary-foreground">
+                <ShoppingBag className="w-4 h-4" />
+                Pedidos
+              </TabsTrigger>
+              <TabsTrigger value="products" className="flex items-center gap-2 data-[state=active]:gradient-primary data-[state=active]:text-primary-foreground">
+                <Package className="w-4 h-4" />
+                Produtos
+              </TabsTrigger>
+              <TabsTrigger value="options" className="flex items-center gap-2 data-[state=active]:gradient-primary data-[state=active]:text-primary-foreground">
+                <Settings className="w-4 h-4" />
+                Opções
+              </TabsTrigger>
             </TabsList>
 
             {/* Orders Tab */}
             <TabsContent value="orders" className="space-y-6">
-<<<<<<< HEAD
-              <div className="text-center py-12 text-muted-foreground">
-                Nenhum pedido salvo ainda. Os pedidos são enviados via WhatsApp.
-              </div>
-=======
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-                <Input
-                  placeholder="Buscar por nome do cliente..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <h2 className="text-2xl font-bold">Histórico de Pedidos</h2>
+                <Badge variant="outline" className="text-sm">
+                  {filteredOrders.length} de {orders.length} pedido{orders.length !== 1 ? 's' : ''}
+                </Badge>
               </div>
 
-              {loading ? (
-                <div className="text-center py-12">Carregando pedidos...</div>
+              {/* Filters */}
+              <Card className="gradient-card border-0 shadow-card">
+                <CardContent className="p-4">
+                  <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+                    <div className="flex items-center gap-2">
+                      <Filter className="w-4 h-4 text-muted-foreground" />
+                      <span className="text-sm font-medium">Filtros:</span>
+                    </div>
+                    
+                    {/* Status Filter */}
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="w-full md:w-48 bg-background/50">
+                        <SelectValue placeholder="Status" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all">Todos os status</SelectItem>
+                        {orderStatuses.map((status) => (
+                          <SelectItem key={status.value} value={status.value}>
+                            {status.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {/* Date Range Filter */}
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full md:w-auto justify-start bg-background/50">
+                          {dateRange?.from ? (
+                            dateRange.to ? (
+                              <>
+                                {format(dateRange.from, "dd/MM/yyyy", { locale: ptBR })} - {format(dateRange.to, "dd/MM/yyyy", { locale: ptBR })}
+                              </>
+                            ) : (
+                              format(dateRange.from, "dd/MM/yyyy", { locale: ptBR })
+                            )
+                          ) : (
+                            <span className="text-muted-foreground">Período</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          initialFocus
+                          mode="range"
+                          defaultMonth={dateRange?.from}
+                          selected={dateRange}
+                          onSelect={setDateRange}
+                          numberOfMonths={1}
+                          locale={ptBR}
+                        />
+                      </PopoverContent>
+                    </Popover>
+
+                    {/* Clear Filters */}
+                    {hasActiveFilters && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={clearFilters}
+                        className="text-muted-foreground hover:text-foreground"
+                      >
+                        <X className="w-4 h-4 mr-1" />
+                        Limpar
+                      </Button>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+
+              {ordersLoading ? (
+                <div className="text-center py-12 text-muted-foreground">Carregando...</div>
               ) : filteredOrders.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  {searchTerm ? 'Nenhum pedido encontrado com esse nome.' : 'Nenhum pedido ainda.'}
-                </div>
+                <Card className="gradient-card border-0 shadow-card">
+                  <CardContent className="py-12 text-center text-muted-foreground">
+                    <ShoppingBag className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>{orders.length === 0 ? 'Nenhum pedido registrado ainda.' : 'Nenhum pedido encontrado com os filtros selecionados.'}</p>
+                    {hasActiveFilters && (
+                      <Button variant="link" onClick={clearFilters} className="mt-2">
+                        Limpar filtros
+                      </Button>
+                    )}
+                  </CardContent>
+                </Card>
               ) : (
-                <div className="grid gap-6">
-                  {filteredOrders.map((order) => (
-                    <Card key={order.id} className="gradient-card border-0 shadow-card">
-                      <CardHeader>
-                        <CardTitle className="flex justify-between items-start">
-                          <div>
-                            <div className="text-xl">{order.customer_name}</div>
-                            <div className="text-sm text-muted-foreground font-normal mt-1">
-                              Pedido #{order.id.slice(0, 8)}
+                <div className="space-y-4">
+                  {filteredOrders.map((order) => {
+                    const isExpanded = expandedOrders.has(order.id);
+                    return (
+                      <Card key={order.id} className="gradient-card border-0 shadow-card hover:shadow-hover transition-smooth">
+                        <Collapsible open={isExpanded} onOpenChange={() => toggleOrderExpanded(order.id)}>
+                          <CardContent className="p-6">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                              <div className="flex-1 space-y-2">
+                                <div className="flex items-center gap-3">
+                                  <h3 className="font-semibold text-lg">{order.customer_name}</h3>
+                                  {getStatusBadge(order.status)}
+                                </div>
+                                <p className="text-sm text-muted-foreground">
+                                  {order.customer_phone}
+                                  {order.customer_email && ` • ${order.customer_email}`}
+                                </p>
+                                <p className="text-sm text-muted-foreground">
+                                  Pedido em: {format(new Date(order.created_at), "dd/MM/yyyy 'às' HH:mm", { locale: ptBR })}
+                                </p>
+                                {order.delivery_date && (
+                                  <p className="text-sm text-muted-foreground">
+                                    Entrega: {format(new Date(order.delivery_date), 'dd/MM/yyyy', { locale: ptBR })}
+                                    {order.delivery_time && ` às ${order.delivery_time}`}
+                                  </p>
+                                )}
+                                {order.items.length > 0 && (
+                                  <p className="text-sm">
+                                    {order.items.length} item{order.items.length !== 1 ? 's' : ''}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex flex-col items-end gap-3">
+                                <span className="text-2xl font-bold text-primary">
+                                  R$ {order.total.toFixed(2)}
+                                </span>
+                                <div className="flex gap-2">
+                                  <CollapsibleTrigger asChild>
+                                    <Button variant="outline" size="sm">
+                                      {isExpanded ? (
+                                        <>
+                                          <ChevronUp className="w-4 h-4 mr-2" />
+                                          Ocultar
+                                        </>
+                                      ) : (
+                                        <>
+                                          <ChevronDown className="w-4 h-4 mr-2" />
+                                          Detalhes
+                                        </>
+                                      )}
+                                    </Button>
+                                  </CollapsibleTrigger>
+                                  <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => setOrderToDelete(order.id)}
+                                    className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </Button>
+                                </div>
+                              </div>
                             </div>
-                          </div>
-                          <div className="text-2xl font-bold text-primary">
-                            R$ {order.total_price.toFixed(2)}
-                          </div>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="space-y-3">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <p className="text-sm font-medium">Contato</p>
-                            <p className="text-sm text-muted-foreground">{order.customer_email}</p>
-                            <p className="text-sm text-muted-foreground">{order.customer_phone}</p>
-                          </div>
-                          <div>
-                            <p className="text-sm font-medium">Entrega</p>
-                            <p className="text-sm text-muted-foreground">
-                              {new Date(order.delivery_date).toLocaleDateString('pt-BR')} às {order.delivery_time}
-                            </p>
-                            {order.customer_address && (
-                              <p className="text-sm text-muted-foreground">{order.customer_address}</p>
-                            )}
-                          </div>
-                        </div>
-                        {order.notes && (
-                          <div>
-                            <p className="text-sm font-medium">Observações</p>
-                            <p className="text-sm text-muted-foreground">{order.notes}</p>
-                          </div>
-                        )}
-                        <div className="flex justify-between items-center pt-4 border-t">
-                          <p className="text-xs text-muted-foreground">
-                            Pedido feito em {new Date(order.created_at).toLocaleDateString('pt-BR')}
-                          </p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+
+                            <CollapsibleContent className="mt-6 pt-6 border-t border-border/50 space-y-4">
+                              {/* Items Details */}
+                              <div className="space-y-3">
+                                <h4 className="font-semibold flex items-center gap-2">
+                                  <Package className="w-4 h-4 text-primary" />
+                                  Itens do Pedido
+                                </h4>
+                                <div className="grid gap-3">
+                                  {order.items.map((item: any, index: number) => (
+                                    <div key={index} className="bg-background/50 rounded-lg p-4 space-y-3">
+                                      <div className="flex items-start gap-4">
+                                        {/* Imagens do pedido */}
+                                        {(item.customImage || item.productImage) && (
+                                          <div className="flex-shrink-0 flex gap-2">
+                                            {item.customImage && (
+                                              <div className="relative group">
+                                                <img 
+                                                  src={item.customImage} 
+                                                  alt={`${item.name} - Personalizada`}
+                                                  className="w-20 h-20 rounded-lg object-cover border border-primary/50 cursor-pointer hover:scale-105 transition-transform"
+                                                  onClick={() => window.open(item.customImage, '_blank')}
+                                                />
+                                                <span className="absolute -top-2 -left-2 bg-primary text-primary-foreground text-xs px-1.5 py-0.5 rounded-full">
+                                                  {item.customImage.startsWith('data:') ? 'IA' : 'Upload'}
+                                                </span>
+                                              </div>
+                                            )}
+                                            {item.productImage && (
+                                              <div className="relative group">
+                                                <img 
+                                                  src={item.productImage} 
+                                                  alt={`${item.name} - Produto`}
+                                                  className="w-20 h-20 rounded-lg object-cover border border-border cursor-pointer hover:scale-105 transition-transform"
+                                                  onClick={() => window.open(item.productImage, '_blank')}
+                                                />
+                                                <span className="absolute -top-2 -left-2 bg-secondary text-secondary-foreground text-xs px-1.5 py-0.5 rounded-full">
+                                                  Catálogo
+                                                </span>
+                                              </div>
+                                            )}
+                                          </div>
+                                        )}
+                                        <div className="flex-1 space-y-1">
+                                          <div className="flex justify-between items-start">
+                                            <span className="font-medium">{item.name}</span>
+                                            <span className="font-semibold text-primary">
+                                              R$ {(item.totalPrice * item.quantity).toFixed(2)}
+                                            </span>
+                                          </div>
+                                          <p className="text-sm text-muted-foreground">
+                                            Quantidade: {item.quantity}
+                                          </p>
+                                          {item.options && Object.keys(item.options).length > 0 && (
+                                            <div className="text-sm text-muted-foreground space-y-0.5">
+                                              {Object.entries(item.options)
+                                                .filter(([_, value]) => value && value !== '')
+                                                .map(([key, value]) => (
+                                                  <p key={key}>
+                                                    <span className="capitalize">{key}:</span> {String(value)}
+                                                  </p>
+                                                ))}
+                                            </div>
+                                          )}
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Delivery Address */}
+                              {order.delivery_address && (
+                                <div className="space-y-2">
+                                  <h4 className="font-semibold flex items-center gap-2">
+                                    <MapPin className="w-4 h-4 text-primary" />
+                                    Endereço de Entrega
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground bg-background/50 rounded-lg p-3">
+                                    {order.delivery_address}
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Notes */}
+                              {order.notes && (
+                                <div className="space-y-2">
+                                  <h4 className="font-semibold flex items-center gap-2">
+                                    <FileText className="w-4 h-4 text-primary" />
+                                    Observações
+                                  </h4>
+                                  <p className="text-sm text-muted-foreground bg-background/50 rounded-lg p-3">
+                                    {order.notes}
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Status Selector */}
+                              <div className="space-y-2 pt-2 border-t border-border/50">
+                                <h4 className="font-semibold flex items-center gap-2">
+                                  <Settings className="w-4 h-4 text-primary" />
+                                  Alterar Status
+                                </h4>
+                                <Select 
+                                  value={order.status} 
+                                  onValueChange={(value) => updateOrderStatus(order.id, value)}
+                                >
+                                  <SelectTrigger className="w-full md:w-64 bg-background/50">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    {orderStatuses.map((status) => (
+                                      <SelectItem key={status.value} value={status.value}>
+                                        <span className="flex items-center gap-2">
+                                          {status.label}
+                                        </span>
+                                      </SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </CollapsibleContent>
+                          </CardContent>
+                        </Collapsible>
+                      </Card>
+                    );
+                  })}
                 </div>
               )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
             </TabsContent>
 
             {/* Products Tab */}
             <TabsContent value="products" className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Produtos Cadastrados</h2>
-<<<<<<< HEAD
+                <Button
+                  onClick={() => {
+                    setEditingProduct(null);
+                    setProductDialogOpen(true);
+                  }}
+                  className="gradient-primary text-primary-foreground hover:opacity-90"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Novo Produto
+                </Button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mockProducts.map((product) => (
-                  <Card key={product.id} className="gradient-card border-0 shadow-card">
-                    <CardHeader>
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-48 object-cover rounded-lg mb-4"
-                      />
-                      <CardTitle>{product.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-4">
-                      <p className="text-sm text-muted-foreground line-clamp-2">
-                        {product.description}
-                      </p>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Preço Base:</span>
-                        <span className="text-lg font-bold text-primary">
-                          R$ {product.basePrice.toFixed(2)}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Tipo:</span>
-                        <span className="text-sm">
-                          {product.type === 'customizable' ? 'Personalizável' : 'Pronto'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm text-muted-foreground">Status:</span>
-                        <span className="text-sm text-green-600">
-                          Ativo
-                        </span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-=======
-                <Dialog open={isProductDialogOpen} onOpenChange={setIsProductDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button onClick={handleAddProduct}>
-                      <Plus className="w-5 h-5 mr-2" />
-                      Adicionar Produto
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {editingProduct ? 'Editar Produto' : 'Novo Produto'}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <ProductForm
-                      product={editingProduct}
-                      onSuccess={handleProductFormSuccess}
-                      onCancel={() => setIsProductDialogOpen(false)}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </div>
-
-              {loading ? (
-                <div className="text-center py-12">Carregando produtos...</div>
+              {productsLoading ? (
+                <div className="text-center py-12 text-muted-foreground">Carregando...</div>
               ) : products.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground">
-                  Nenhum produto cadastrado ainda.
-                </div>
+                <Card className="gradient-card border-0 shadow-card">
+                  <CardContent className="py-12 text-center text-muted-foreground">
+                    <Package className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                    <p>Nenhum produto cadastrado ainda.</p>
+                    <Button
+                      onClick={() => setProductDialogOpen(true)}
+                      className="mt-4 gradient-primary text-primary-foreground"
+                    >
+                      <Plus className="w-4 h-4 mr-2" />
+                      Cadastrar primeiro produto
+                    </Button>
+                  </CardContent>
+                </Card>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {products.map((product) => (
-                    <Card key={product.id} className="gradient-card border-0 shadow-card">
-                      <CardHeader>
+                    <Card key={product.id} className="gradient-card border-0 shadow-card hover:shadow-hover transition-smooth overflow-hidden">
+                      {product.image_url && (
                         <img
-                          src={product.image}
+                          src={product.image_url}
                           alt={product.name}
-                          className="w-full h-48 object-cover rounded-lg mb-4"
+                          className="w-full h-48 object-cover"
                         />
-                        <CardTitle>{product.name}</CardTitle>
-                        <CardDescription>{product.description}</CardDescription>
+                      )}
+                      <CardHeader className="pb-2">
+                        <div className="flex items-start justify-between">
+                          <CardTitle className="text-lg">{product.name}</CardTitle>
+                          <Badge variant={product.is_active ? 'default' : 'secondary'}>
+                            {product.is_active ? 'Ativo' : 'Inativo'}
+                          </Badge>
+                        </div>
                       </CardHeader>
                       <CardContent className="space-y-4">
+                        {product.description && (
+                          <p className="text-sm text-muted-foreground line-clamp-2">
+                            {product.description}
+                          </p>
+                        )}
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground">Preço Base:</span>
                           <span className="text-lg font-bold text-primary">
@@ -396,29 +535,27 @@ const Dashboard = () => {
                         <div className="flex justify-between items-center">
                           <span className="text-sm text-muted-foreground">Tipo:</span>
                           <span className="text-sm">
-                            {product.type === 'customizable' ? 'Personalizável' : 'Pronto'}
+                            {product.product_type === 'customizable' ? 'Personalizável' : 'Pronto'}
                           </span>
                         </div>
-                        <div className="flex justify-between items-center">
-                          <span className="text-sm text-muted-foreground">Status:</span>
-                          <span className={`text-sm ${product.is_active ? 'text-green-600' : 'text-red-600'}`}>
-                            {product.is_active ? 'Ativo' : 'Inativo'}
-                          </span>
-                        </div>
-                        <div className="flex gap-2 pt-4">
+                        <div className="flex gap-2 pt-2">
                           <Button
                             variant="outline"
                             size="sm"
                             className="flex-1"
-                            onClick={() => handleEditProduct(product)}
+                            onClick={() => {
+                              setEditingProduct(product);
+                              setProductDialogOpen(true);
+                            }}
                           >
-                            <Edit className="w-4 h-4 mr-2" />
+                            <Pencil className="w-4 h-4 mr-2" />
                             Editar
                           </Button>
                           <Button
-                            variant="destructive"
+                            variant="outline"
                             size="sm"
-                            onClick={() => handleDeleteProduct(product.id)}
+                            className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                            onClick={() => setProductToDelete(product.id)}
                           >
                             <Trash2 className="w-4 h-4" />
                           </Button>
@@ -428,105 +565,72 @@ const Dashboard = () => {
                   ))}
                 </div>
               )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
             </TabsContent>
 
             {/* Options Tab */}
             <TabsContent value="options" className="space-y-6">
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">Opções de Customização</h2>
-<<<<<<< HEAD
+                <Button
+                  onClick={() => {
+                    setEditingOption(null);
+                    setOptionDialogOpen(true);
+                  }}
+                  className="gradient-primary text-primary-foreground hover:opacity-90"
+                >
+                  <Plus className="w-4 h-4 mr-2" />
+                  Nova Opção
+                </Button>
               </div>
 
               <Tabs value={activeOptionTab} onValueChange={setActiveOptionTab}>
-                <TabsList className="grid w-full grid-cols-6">
+                <TabsList className="grid w-full grid-cols-6 bg-card shadow-soft">
                   {optionTypes.map(type => (
-                    <TabsTrigger key={type.value} value={type.value}>
+                    <TabsTrigger 
+                      key={type.value} 
+                      value={type.value}
+                      className="text-xs md:text-sm data-[state=active]:gradient-primary data-[state=active]:text-primary-foreground"
+                    >
                       {type.label}
                     </TabsTrigger>
                   ))}
                 </TabsList>
 
-                {optionTypes.map(type => (
-                  <TabsContent key={type.value} value={type.value} className="space-y-4 mt-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {getOptionsByType(type.value).map((option) => (
-                        <Card key={option.id} className="gradient-card border-0 shadow-card">
-                          <CardHeader>
-                            <CardTitle className="text-lg">{option.name}</CardTitle>
-                          </CardHeader>
-                          <CardContent className="space-y-3">
-                            {option.description && (
-                              <p className="text-sm text-muted-foreground">
-                                {option.description}
-                              </p>
-                            )}
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-muted-foreground">Preço:</span>
-                              <span className="text-lg font-bold text-primary">
-                                {option.price > 0 ? `+ R$ ${option.price.toFixed(2)}` : 
-                                 option.price < 0 ? `- R$ ${Math.abs(option.price).toFixed(2)}` : 
-                                 'Incluído'}
-                              </span>
-                            </div>
-                            <div className="flex justify-between items-center">
-                              <span className="text-sm text-muted-foreground">Status:</span>
-                              <span className="text-sm text-green-600">Ativo</span>
-                            </div>
+                {optionTypes.map(type => {
+                  const typeOptions = getOptionsByType(type.value);
+                  return (
+                    <TabsContent key={type.value} value={type.value} className="space-y-4 mt-6">
+                      {optionsLoading ? (
+                        <div className="text-center py-12 text-muted-foreground">Carregando...</div>
+                      ) : typeOptions.length === 0 ? (
+                        <Card className="gradient-card border-0 shadow-card">
+                          <CardContent className="py-12 text-center text-muted-foreground">
+                            <Settings className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                            <p>Nenhuma opção de {type.label.toLowerCase()} cadastrada.</p>
+                            <Button
+                              onClick={() => {
+                                setEditingOption(null);
+                                setActiveOptionTab(type.value);
+                                setOptionDialogOpen(true);
+                              }}
+                              className="mt-4 gradient-primary text-primary-foreground"
+                            >
+                              <Plus className="w-4 h-4 mr-2" />
+                              Adicionar {type.label.toLowerCase()}
+                            </Button>
                           </CardContent>
                         </Card>
-                      ))}
-                    </div>
-                  </TabsContent>
-                ))}
-              </Tabs>
-=======
-                <Dialog open={isOptionDialogOpen} onOpenChange={setIsOptionDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button onClick={handleAddOption}>
-                      <Plus className="w-5 h-5 mr-2" />
-                      Adicionar Opção
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-lg">
-                    <DialogHeader>
-                      <DialogTitle>
-                        {editingOption ? 'Editar Opção' : 'Nova Opção'}
-                      </DialogTitle>
-                    </DialogHeader>
-                    <CustomizationOptionForm
-                      option={editingOption}
-                      onSuccess={handleOptionFormSuccess}
-                      onCancel={() => setIsOptionDialogOpen(false)}
-                    />
-                  </DialogContent>
-                </Dialog>
-              </div>
-
-              {loading ? (
-                <div className="text-center py-12">Carregando opções...</div>
-              ) : (
-                <Tabs value={activeOptionTab} onValueChange={setActiveOptionTab}>
-                  <TabsList className="grid w-full grid-cols-6">
-                    {optionTypes.map(type => (
-                      <TabsTrigger key={type.value} value={type.value}>
-                        {type.label}
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
-
-                  {optionTypes.map(type => (
-                    <TabsContent key={type.value} value={type.value} className="space-y-4 mt-6">
-                      {getOptionsByType(type.value).length === 0 ? (
-                        <div className="text-center py-12 text-muted-foreground">
-                          Nenhuma opção cadastrada nesta categoria.
-                        </div>
                       ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                          {getOptionsByType(type.value).map((option) => (
-                            <Card key={option.id} className="gradient-card border-0 shadow-card">
-                              <CardHeader>
-                                <CardTitle className="text-lg">{option.name}</CardTitle>
+                          {typeOptions.map((option) => (
+                            <Card key={option.id} className="gradient-card border-0 shadow-card hover:shadow-hover transition-smooth">
+                              <CardHeader className="pb-2">
+                                <div className="flex items-start justify-between">
+                                  <CardTitle className="text-lg">{option.name}</CardTitle>
+                                  <Badge variant={option.is_active ? 'default' : 'secondary'}>
+                                    {option.is_active ? 'Ativo' : 'Inativo'}
+                                  </Badge>
+                                </div>
                               </CardHeader>
                               <CardContent className="space-y-3">
                                 {option.description && (
@@ -542,26 +646,24 @@ const Dashboard = () => {
                                      'Incluído'}
                                   </span>
                                 </div>
-                                <div className="flex justify-between items-center">
-                                  <span className="text-sm text-muted-foreground">Status:</span>
-                                  <span className={`text-sm ${option.is_active ? 'text-green-600' : 'text-red-600'}`}>
-                                    {option.is_active ? 'Ativo' : 'Inativo'}
-                                  </span>
-                                </div>
-                                <div className="flex gap-2 pt-4">
+                                <div className="flex gap-2 pt-2">
                                   <Button
                                     variant="outline"
                                     size="sm"
                                     className="flex-1"
-                                    onClick={() => handleEditOption(option)}
+                                    onClick={() => {
+                                      setEditingOption(option);
+                                      setOptionDialogOpen(true);
+                                    }}
                                   >
-                                    <Edit className="w-4 h-4 mr-2" />
+                                    <Pencil className="w-4 h-4 mr-2" />
                                     Editar
                                   </Button>
                                   <Button
-                                    variant="destructive"
+                                    variant="outline"
                                     size="sm"
-                                    onClick={() => handleDeleteOption(option.id)}
+                                    className="text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                                    onClick={() => setOptionToDelete(option.id)}
                                   >
                                     <Trash2 className="w-4 h-4" />
                                   </Button>
@@ -572,14 +674,68 @@ const Dashboard = () => {
                         </div>
                       )}
                     </TabsContent>
-                  ))}
-                </Tabs>
-              )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+                  );
+                })}
+              </Tabs>
             </TabsContent>
           </Tabs>
         </div>
       </div>
+
+      {/* Dialogs */}
+      <ProductFormDialog
+        open={productDialogOpen}
+        onOpenChange={setProductDialogOpen}
+        product={editingProduct}
+        onSubmit={handleProductSubmit}
+      />
+
+      <OptionFormDialog
+        open={optionDialogOpen}
+        onOpenChange={setOptionDialogOpen}
+        option={editingOption}
+        defaultType={activeOptionTab}
+        onSubmit={handleOptionSubmit}
+      />
+
+      <DeleteConfirmDialog
+        open={!!orderToDelete}
+        onOpenChange={() => setOrderToDelete(null)}
+        title="Excluir pedido?"
+        description="Esta ação não pode ser desfeita. O pedido será removido permanentemente."
+        onConfirm={() => {
+          if (orderToDelete) {
+            deleteOrder(orderToDelete);
+            setOrderToDelete(null);
+          }
+        }}
+      />
+
+      <DeleteConfirmDialog
+        open={!!productToDelete}
+        onOpenChange={() => setProductToDelete(null)}
+        title="Excluir produto?"
+        description="Esta ação não pode ser desfeita. O produto será removido permanentemente."
+        onConfirm={() => {
+          if (productToDelete) {
+            deleteProduct(productToDelete);
+            setProductToDelete(null);
+          }
+        }}
+      />
+
+      <DeleteConfirmDialog
+        open={!!optionToDelete}
+        onOpenChange={() => setOptionToDelete(null)}
+        title="Excluir opção?"
+        description="Esta ação não pode ser desfeita. A opção será removida permanentemente."
+        onConfirm={() => {
+          if (optionToDelete) {
+            deleteOption(optionToDelete);
+            setOptionToDelete(null);
+          }
+        }}
+      />
     </div>
   );
 };

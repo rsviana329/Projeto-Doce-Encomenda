@@ -10,11 +10,172 @@ export type Database = {
   // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: "13.0.5"
+    PostgrestVersion: "14.1"
   }
   public: {
     Tables: {
-      [_ in never]: never
+      cake_reservations: {
+        Row: {
+          cake_description: string | null
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          id: string
+          reservation_date: string
+          reservation_time: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          cake_description?: string | null
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          id?: string
+          reservation_date: string
+          reservation_time: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          cake_description?: string | null
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          id?: string
+          reservation_date?: string
+          reservation_time?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      customization_options: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          is_active: boolean
+          name: string
+          option_type: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name: string
+          option_type: string
+          price?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          is_active?: boolean
+          name?: string
+          option_type?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string | null
+          customer_name: string
+          customer_phone: string
+          delivery_address: string | null
+          delivery_date: string | null
+          delivery_time: string | null
+          id: string
+          items: Json
+          notes: string | null
+          status: string
+          total: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name: string
+          customer_phone: string
+          delivery_address?: string | null
+          delivery_date?: string | null
+          delivery_time?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string | null
+          customer_name?: string
+          customer_phone?: string
+          delivery_address?: string | null
+          delivery_date?: string | null
+          delivery_time?: string | null
+          id?: string
+          items?: Json
+          notes?: string | null
+          status?: string
+          total?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      products: {
+        Row: {
+          allowed_options: Json | null
+          base_price: number
+          category: string
+          created_at: string
+          default_options: Json | null
+          description: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name: string
+          product_type: string
+          updated_at: string
+        }
+        Insert: {
+          allowed_options?: Json | null
+          base_price?: number
+          category?: string
+          created_at?: string
+          default_options?: Json | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name: string
+          product_type?: string
+          updated_at?: string
+        }
+        Update: {
+          allowed_options?: Json | null
+          base_price?: number
+          category?: string
+          created_at?: string
+          default_options?: Json | null
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name?: string
+          product_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

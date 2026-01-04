@@ -1,122 +1,102 @@
-import { MapPin, Phone, Clock } from 'lucide-react';
-<<<<<<< HEAD
+import { FaInstagram, FaFacebook, FaWhatsapp } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const settings = {
-    address: 'Rua das Flores, 123 - Centro',
-    phone: '(11) 99999-9999',
-    email: 'contato@doceencomenda.com.br',
-    opening_hours: {
-      monday: { open: '09:00', close: '18:00' },
-      tuesday: { open: '09:00', close: '18:00' },
-      wednesday: { open: '09:00', close: '18:00' },
-      thursday: { open: '09:00', close: '18:00' },
-      friday: { open: '09:00', close: '18:00' },
-      saturday: { open: '10:00', close: '14:00' },
-      sunday: { closed: true },
-    }
-  };
-=======
-import { useBakerySettings } from '@/hooks/useBakerySettings';
-import { Skeleton } from './ui/skeleton';
+  const sections = [
+    {
+      title: "Navegação",
+      links: [
+        { name: "Início", href: "/" },
+        { name: "Catálogo", href: "/catalogo" },
+        { name: "Monte seu Bolo", href: "/monte-seu-bolo" },
+        { name: "Sobre Nós", href: "/sobre" },
+      ],
+    },
+    {
+      title: "Atendimento",
+      links: [
+        { name: "Segunda a Sexta: 09h - 18h", href: "#" },
+        { name: "Sábado: 10h - 14h", href: "#" },
+        { name: "Domingo: Fechado", href: "#" },
+      ],
+    },
+    {
+      title: "Contato",
+      links: [
+        { name: "(11) 99999-9999", href: "tel:+5511999999999" },
+        { name: "contato@doceencomenda.com.br", href: "mailto:contato@doceencomenda.com.br" },
+        { name: "Rua das Flores, 123 - Centro", href: "#" },
+      ],
+    },
+  ];
 
-const Footer = () => {
-  const { data: settings, isLoading } = useBakerySettings();
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+  const socialLinks = [
+    { icon: <FaInstagram className="size-5" />, href: "#", label: "Instagram" },
+    { icon: <FaFacebook className="size-5" />, href: "#", label: "Facebook" },
+    { icon: <FaWhatsapp className="size-5" />, href: "#", label: "WhatsApp" },
+  ];
 
-  const dayNames: { [key: string]: string } = {
-    monday: 'Segunda',
-    tuesday: 'Terça',
-    wednesday: 'Quarta',
-    thursday: 'Quinta',
-    friday: 'Sexta',
-    saturday: 'Sábado',
-    sunday: 'Domingo',
-  };
+  const legalLinks = [
+    { name: "Termos de Uso", href: "#" },
+    { name: "Política de Privacidade", href: "#" },
+  ];
 
   return (
-    <footer className="border-t border-border/40 bg-muted/30 mt-20">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Localização */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <MapPin className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-lg">Localização</h3>
+    <footer className="py-16 bg-muted/30 border-t border-border/40">
+      <div className="container mx-auto px-4">
+        <div className="flex w-full flex-col justify-between gap-10 lg:flex-row lg:items-start lg:text-left">
+          <div className="flex w-full flex-col justify-between gap-6 lg:items-start">
+            {/* Logo */}
+            <div className="flex items-center gap-2 lg:justify-start">
+              <Link to="/">
+                <span className="text-2xl">🎂</span>
+              </Link>
+              <h2 className="text-xl font-semibold gradient-text">Doce Encomenda</h2>
             </div>
-<<<<<<< HEAD
-            <p className="text-muted-foreground">{settings.address}</p>
-=======
-            {isLoading ? (
-              <Skeleton className="h-12 w-full" />
-            ) : (
-              <p className="text-muted-foreground">{settings?.address}</p>
-            )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
-          </div>
-
-          {/* Contato */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Phone className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-lg">Contato</h3>
-            </div>
-<<<<<<< HEAD
-            <div className="space-y-2 text-muted-foreground">
-              <p>{settings.phone}</p>
-              <p>{settings.email}</p>
-            </div>
-=======
-            {isLoading ? (
-              <Skeleton className="h-16 w-full" />
-            ) : (
-              <div className="space-y-2 text-muted-foreground">
-                <p>{settings?.phone}</p>
-                <p>{settings?.email}</p>
-              </div>
-            )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
-          </div>
-
-          {/* Horário */}
-          <div>
-            <div className="flex items-center gap-2 mb-4">
-              <Clock className="w-5 h-5 text-primary" />
-              <h3 className="font-semibold text-lg">Horário de Funcionamento</h3>
-            </div>
-<<<<<<< HEAD
-            <div className="space-y-1 text-sm text-muted-foreground">
-              {Object.entries(settings.opening_hours).map(([day, hours]: [string, any]) => (
-                <div key={day} className="flex justify-between">
-                  <span>{dayNames[day]}:</span>
-                  <span>
-                    {hours.closed ? 'Fechado' : `${hours.open} - ${hours.close}`}
-                  </span>
-                </div>
+            <p className="max-w-[70%] text-sm text-muted-foreground">
+              Bolos artesanais feitos com amor e dedicação. Transformamos momentos especiais em memórias doces e inesquecíveis.
+            </p>
+            <ul className="flex items-center space-x-6 text-muted-foreground">
+              {socialLinks.map((social, idx) => (
+                <li key={idx} className="font-medium hover:text-primary transition-colors">
+                  <a href={social.href} aria-label={social.label}>
+                    {social.icon}
+                  </a>
+                </li>
               ))}
-            </div>
-=======
-            {isLoading ? (
-              <Skeleton className="h-32 w-full" />
-            ) : (
-              <div className="space-y-1 text-sm text-muted-foreground">
-                {settings?.opening_hours &&
-                  Object.entries(settings.opening_hours).map(([day, hours]) => (
-                    <div key={day} className="flex justify-between">
-                      <span>{dayNames[day]}:</span>
-                      <span>
-                        {hours.closed ? 'Fechado' : `${hours.open} - ${hours.close}`}
-                      </span>
-                    </div>
+            </ul>
+          </div>
+          <div className="grid w-full gap-6 md:grid-cols-3 lg:gap-20">
+            {sections.map((section, sectionIdx) => (
+              <div key={sectionIdx}>
+                <h3 className="mb-4 font-bold text-foreground">{section.title}</h3>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  {section.links.map((link, linkIdx) => (
+                    <li
+                      key={linkIdx}
+                      className="font-medium hover:text-primary transition-colors"
+                    >
+                      {link.href.startsWith('/') ? (
+                        <Link to={link.href}>{link.name}</Link>
+                      ) : (
+                        <a href={link.href}>{link.name}</a>
+                      )}
+                    </li>
                   ))}
+                </ul>
               </div>
-            )}
->>>>>>> a5f3e25425b43f1284c9f6eddb51fd037d4f240b
+            ))}
           </div>
         </div>
-
-        <div className="mt-8 pt-8 border-t border-border/40 text-center text-sm text-muted-foreground">
-          © {new Date().getFullYear()} Doce Encomenda. Todos os direitos reservados.
+        <div className="mt-8 flex flex-col justify-between gap-4 border-t border-border/40 py-8 text-xs font-medium text-muted-foreground md:flex-row md:items-center md:text-left">
+          <p className="order-2 lg:order-1">© {new Date().getFullYear()} Doce Encomenda. Todos os direitos reservados.</p>
+          <ul className="order-1 flex flex-col gap-2 md:order-2 md:flex-row md:gap-4">
+            {legalLinks.map((link, idx) => (
+              <li key={idx} className="hover:text-primary transition-colors">
+                <a href={link.href}>{link.name}</a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>
