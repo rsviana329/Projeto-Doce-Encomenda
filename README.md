@@ -94,14 +94,14 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
 ### Páginas Públicas
 
 1. **Home (`/`)**
-<img src="src/assets/Home.png" alt="Tela inicial" width="500"/>
+<img src="site doce encomendas/src/assets/Home.png" alt="Tela inicial" width="500"/>
 
    - Página inicial com banner de boas-vindas
    - Destaques de produtos
    - Chamadas para catálogo e personalização
 
 2. **Catálogo (`/catalogo`)**
-<img src="src/assets/Catálogo.png" alt="Catálogo" width="500"/>
+<img src="site doce encomendas/src/assets/Catálogo.png" alt="Catálogo" width="500"/>
 
    - Listagem completa de produtos
    - Filtros por categoria e valor
@@ -114,7 +114,7 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
    - Opção de adicionar ao carrinho
 
 4. **Monte Seu Bolo (`/monte-seu-bolo`)**
-<img src="src/assets/Monte seu bolo.png" alt="Monte seu bolo" width="500"/>
+<img src="site doce encomendas/src/assets/Monte seu bolo.png" alt="Monte seu bolo" width="500"/>
 
    - Interface de personalização completa
    - Seleção de:
@@ -129,7 +129,7 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
    - Adicionar ao carrinho
 
 5. **Carrinho (`/carrinho`)**
-<img src="src/assets/Carrinho.png" alt="Carrinho" width="500"/>
+<img src="site doce encomendas/src/assets/Carrinho.png" alt="Carrinho" width="500"/>
 
    - Listagem de todos os itens
    - Quantidade editável
