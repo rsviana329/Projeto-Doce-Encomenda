@@ -3,7 +3,7 @@
 **NOME DO SISTEMA:**  
 Doce Encomenda - Plataforma Web para Encomendas de Bolos Personalizados
 
-**DISCENTE E MATRÍCULA:**  
+**DISCENTES E MATRÍCULAS:**  
 Rosivânia da Silva Viana  
 Matrícula: 20240065375
 
@@ -12,9 +12,15 @@ Matrícula: 2020034224
 
 ---
 
+
+#### Segue o link do video de apresentação da plataforma: https://www.youtube.com/watch?v=gNGPreDucZ8
+
+
+---
+
 ## 📖 Sobre o Projeto
 
-O Doce Encomenda é uma plataforma web completa desenvolvida para facilitar o processo de encomenda de bolos personalizados e prontos. O sistema oferece uma experiência intuitiva tanto para clientes quanto para administradores, permitindo customização completa de bolos, gerenciamento de carrinho de compras e integração com WhatsApp para finalização de pedidos.
+O Doce Encomenda é uma plataforma web completa desenvolvida para facilitar o processo de encomenda de bolos personalizados e prontos. O sistema oferece uma experiência intuitiva tanto para clientes quanto para administradores, permitindo customização completa de bolos, gerenciamento de carrinho de compras e integração com Telegram para finalização de pedidos.
 
 ### 🎯 Objetivo
 
@@ -92,24 +98,20 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
 
    - Página inicial com banner de boas-vindas
    - Destaques de produtos
-   - Seções promocionais
-   - Call-to-actions para catálogo e personalização
+   - Chamadas para catálogo e personalização
 
 2. **Catálogo (`/catalogo`)**
 <img src="src/assets/Catálogo.png" alt="Catálogo" width="500"/>
 
    - Listagem completa de produtos
-   - Filtros por categoria (Prontos, Personalizados)
+   - Filtros por categoria e valor
    - Cards com imagens, descrições e preços
    - Botão de adicionar ao carrinho
-   - Design em grid responsivo
 
 3. **Produto (`/produto/:id`)**
    - Visualização detalhada do produto
-   - Galeria de imagens
    - Informações completas (descrição, preço, categoria)
    - Opção de adicionar ao carrinho
-   - Produtos relacionados
 
 4. **Monte Seu Bolo (`/monte-seu-bolo`)**
 <img src="src/assets/Monte seu bolo.png" alt="Monte seu bolo" width="500"/>
@@ -132,17 +134,17 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
    - Listagem de todos os itens
    - Quantidade editável
    - Remoção de itens
-   - Cálculo de subtotal e total
+   - Cálculo de valores
    - Botão para checkout
 
 6. **Checkout (`/checkout`)**
    - Formulário de dados do cliente:
      - Nome completo
      - Telefone
-     - Endereço de entrega
+     - Endereço de entrega ou retirada no local
      - Observações
    - Resumo do pedido
-   - Botão de finalização via WhatsApp
+   - Botão de finalização via Telegram
 
 7. **Sobre (`/sobre`)**
    - História da confeitaria
@@ -154,7 +156,6 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
 
 8. **Login Admin (`/admin/login`)**
    - Autenticação de administrador
-   - Credenciais: `admin` / `admin123`
    - Validação de formulário
 
 9. **Dashboard Admin (`/admin/dashboard`)**
@@ -168,17 +169,11 @@ Este é o ponto de entrada da aplicação React. A partir dele, toda a estrutura
      - Editar opções existentes
      - Gerenciar preços e disponibilidade
    - Configurações da confeitaria
-   - Preview de mensagens WhatsApp
-
-10. **Preview WhatsApp (`/admin/whatsapp-preview`)**
-    - Visualização de mensagens formatadas
-    - Teste de formatação de pedidos
 
 ### Página de Erro
 
-11. **404 - Não Encontrado (`/404` ou rotas inválidas)**
+11. **404 - Não Encontrado**
     - Página de erro personalizada
-    - Redirecionamento para home
 
 ---
 
@@ -281,11 +276,6 @@ doce-encomenda/
 
 ### Estilização
 - **Tailwind CSS** - Framework CSS utility-first
-- **tailwindcss-animate** - Animações para Tailwind
-- **class-variance-authority** - Gerenciamento de variantes de componentes
-- **clsx** e **tailwind-merge** - Utilitários para classes CSS
-
-### Componentes UI
 - **Shadcn/ui** - Coleção de componentes acessíveis e customizáveis baseados em Radix UI
 - **Radix UI** - Componentes primitivos acessíveis (50+ componentes)
 - **Lucide React** - Ícones SVG
@@ -297,18 +287,6 @@ doce-encomenda/
 ### Formulários
 - **React Hook Form** - Biblioteca para gerenciamento de formulários
 - **Zod** - Validação de schemas TypeScript-first
-- **@hookform/resolvers** - Resolvers para React Hook Form
-
-### Roteamento
-- **React Router DOM** - Roteamento client-side
-
-### Notificações
-- **Sonner** - Biblioteca de toast/notificações
-
-### Outras Bibliotecas
-- **date-fns** - Manipulação de datas
-- **embla-carousel-react** - Carrossel de imagens
-- **recharts** - Biblioteca de gráficos
 
 ---
 
@@ -432,12 +410,12 @@ Home
 │   └── Produto (detalhes)
 │       └── Carrinho
 │           └── Checkout
-│               └── WhatsApp
+│               └── WhatsApp e/ou Telegram
 │
 ├── Monte Seu Bolo
 │   └── Carrinho
 │       └── Checkout
-│           └── WhatsApp
+│           └── WhatsApp e/ou Telegram
 │
 ├── Sobre
 │
@@ -445,8 +423,7 @@ Home
     ├── Login
     └── Dashboard
         ├── Gestão de Produtos
-        ├── Gestão de Opções
-        └── WhatsApp Preview
+        └── Gestão de Opções
 ```
 
 ---
