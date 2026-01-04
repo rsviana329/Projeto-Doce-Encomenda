@@ -1,0 +1,299 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "14929a81-b7a6-4734-af12-7acb691c491e",
+              "name": "pedido_cliente",
+              "value": "={{ $json.body }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "08f6c9c1-2b45-4659-b9da-647d2f9fb04f",
+      "name": "dados"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        592,
+        32
+      ],
+      "id": "cbff398c-eb8c-4fe5-848b-fc2981e574c2",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "PY9ZTWHk3xYipWRx",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=NÃO PODE FALTAR ISSO:(crie um estrutura mais carinhos)\n\nDados do clintes:(cliente:{{ $json.pedido_cliente.customerName }},\nContato do cliente:{{ $json.pedido_cliente.customerPhone }},\nModelo de entrega:{{ $json.pedido_cliente.deliveryAddress }},\nData do pedido:{{ $json.pedido_cliente.deliveryDate }},\nTipo do bolo:{{ $json.pedido_cliente.items[0].name }},\nQuantidade:{{ $json.pedido_cliente.items[0].quantity }},\nValor R$:{{ $json.pedido_cliente.items[0].totalPrice }}reais,\nTamanho do bolo:{{ $json.pedido_cliente.items[0].options.size }},\nSabor:{{ $json.pedido_cliente.items[0].options.flavor }}},\nCobertura:{{ $json.pedido_cliente.items[0].options.covering }},\nRecheio:{{ $json.pedido_cliente.items[0].options.filling }},\nDecoração do bolo:{{ $json.pedido_cliente.items[0].options.decoration }},\nCamadas(andar):{{ $json.pedido_cliente.items[0].options.layers }},\nObservação:{{ $json.pedido_cliente.items[0].options.notes }},\nValor total R$:{{ $json.pedido_cliente.total }} reais)",
+        "options": {
+          "systemMessage": "=role: system\n\nobjective: >\n  Transformar as informações fornecidas pelo cliente em um pedido de bolo\n  totalmente humanizado, claro e organizado, como se fosse uma mensagem real\n  enviada por um cliente para uma confeitaria. A resposta não deve conter\n  JSON, listas técnicas ou estruturas de dados, apenas texto bem formatado.\n\ntone: humano, educado, acolhedor, carinhoso e profissional.\n\ninstructions:\n  - Leia atentamente todas as informações fornecidas pelo cliente, mesmo que\n    estejam fora de ordem ou escritas de forma informal.\n  - Gere PRIMEIRO uma mensagem curta e educada, como se o cliente estivesse\n    entrando em contato com a confeitaria.\n  - Em seguida, apresente o pedido de forma organizada, com títulos claros,\n    facilitando a leitura pelo atendente.\n  - Utilize apenas as informações realmente informadas pelo cliente.\n  - Nunca invente dados.\n  - Quando alguma informação não for fornecida, escreva \"Não informado\".\n  - Não utilize JSON, YAML ou qualquer formato técnico.\n  - Use linguagem natural, clara e profissional.\n  - O texto final deve parecer pronto para envio via WhatsApp ou e-mail.\n\nrequired_inputs:\n  - cliente\n  - contato_cliente\n  - modelo_entrega\n  - data_pedido\n  - tipo_bolo\n  - quantidade\n  - valor_unitario\n  - tamanho_bolo\n  - sabor\n  - cobertura\n  - recheio\n  - decoracao_bolo\n  - camadas\n  - observacao\n  - valor_total\n\noutput_format:\n  Texto corrido com:\n  1. Mensagem inicial do cliente\n  2. Dados do pedido organizados por seções\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        576,
+        -144
+      ],
+      "id": "b141058d-870b-4fa6-94fc-432131b93d58",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e44fd6e7-d611-4d02-a834-27d86c020cdd",
+              "name": "mensagem",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1248,
+        -144
+      ],
+      "id": "b090438e-1426-4ba2-a242-320bf8017f62",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.pedido_cliente.items[0].productImage }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        576,
+        176
+      ],
+      "id": "9af2b1ef-7e99-43a0-8870-691c43b1d821",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "sendPhoto",
+        "chatId": "=1180695975",
+        "binaryData": true,
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        816,
+        176
+      ],
+      "id": "a06eecf4-053d-4f73-99d0-07af709148cc",
+      "name": "Send a photo message",
+      "webhookId": "da6f98aa-85cd-499c-9897-fb804136eaf4",
+      "credentials": {
+        "telegramApi": {
+          "id": "l6M2IhjxO78YBEd2",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "=1180695975",
+        "text": "={{ $json.mensagem }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1424,
+        -144
+      ],
+      "id": "8a5d2131-19e0-4ed0-8a5a-86ff725af4d6",
+      "name": "Send a text message",
+      "webhookId": "da6f98aa-85cd-499c-9897-fb804136eaf4",
+      "credentials": {
+        "telegramApi": {
+          "id": "l6M2IhjxO78YBEd2",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "doceencomenda12",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "7bd0b6aa-f2f3-4ae9-a61f-b68d0f13f44b",
+      "name": "Webhook",
+      "webhookId": "19ea4c71-0ad4-40bf-b74d-c4815803ed3e"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.output }}",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "quero que retire os (*)"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.8,
+      "position": [
+        928,
+        -144
+      ],
+      "id": "7723a898-2bf5-4d88-9be4-309013348d9f",
+      "name": "Basic LLM Chain"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "dados": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a photo message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "dynamic",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "8991a43c-1a2f-49c6-9338-56384ef9c41d",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "7c3f5da627dd3282c7880b6b5fa4c9233657b9ff6678fac5f68f616efaf9098e"
+  },
+  "id": "3mX463R6djcM0pHk",
+  "tags": []
+}
